@@ -72,17 +72,6 @@ function TypewriterInputText({ text }) {
   )
 }
 
-function mixHex(hexA, hexB, t) {
-  const a = parseInt(hexA.slice(1), 16)
-  const b = parseInt(hexB.slice(1), 16)
-  const ar = (a >> 16) & 255, ag = (a >> 8) & 255, ab = a & 255
-  const br = (b >> 16) & 255, bg = (b >> 8) & 255, bb = b & 255
-  const r = Math.round(ar + (br - ar) * t)
-  const g = Math.round(ag + (bg - ag) * t)
-  const bl = Math.round(ab + (bb - ab) * t)
-  return `rgb(${r}, ${g}, ${bl})`
-}
-
 function Icon({ name, size = 24, className = '' }) {
   return (
     <span
@@ -1720,11 +1709,6 @@ export default function HomeScreen({
   const [balanceSplitActive,  setBalanceSplitActive]  = useState(false)
   const [balanceCornerActive, setBalanceCornerActive] = useState(false)
   const balanceCornerTimerRef = useRef(null)
-  const [bgScrollY,           setBgScrollY]           = useState(0)
-  const MAX_BG_SCROLL = 120
-  const handleHomeScroll = (e) => {
-    setBgScrollY(Math.min(e.currentTarget.scrollTop, MAX_BG_SCROLL))
-  }
   const phoneFrameRef = useRef(null)
   const homeScrollRef = useRef(null)
   const transactionCardRef = useRef(null)
@@ -1838,19 +1822,13 @@ export default function HomeScreen({
   return (
     <div ref={phoneFrameRef} className="w-[440px] h-[956px] overflow-hidden relative rounded-[64px] bg-white">
 
-      <motion.div
-        className="absolute inset-x-0 top-0 overflow-hidden"
-        style={{ height: `calc(100% + ${MAX_BG_SCROLL}px)` }}
-        animate={{ y: -bgScrollY }}
-        transition={{ type: 'spring', stiffness: 300, damping: 32 }}
-      >
-        <div
-          className="absolute inset-0"
-          style={{
-            background: `linear-gradient(180deg, ${mixHex('#a1a1aa', '#9F9FA9', bgScrollY / MAX_BG_SCROLL)} 0%, #ffffff 70%)`,
-          }}
-        />
-      </motion.div>
+      <Image
+        src={asset('/tcbm-background.png')}
+        alt=""
+        fill
+        priority
+        className="object-cover"
+      />
 
       {/* Slideable home content — exits left when search opens */}
       <motion.div
@@ -1874,7 +1852,6 @@ export default function HomeScreen({
         <div className="flex-1 flex flex-col min-h-0">
 
           <motion.div
-            onScroll={handleHomeScroll}
             ref={homeScrollRef}
             className="flex-1 flex flex-col gap-1 min-h-0 overflow-y-auto px-1 pt-1 pb-1 [&::-webkit-scrollbar]:hidden"
           >
