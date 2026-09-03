@@ -1877,9 +1877,6 @@ export default function HomeScreen({
             className={`shrink-0 flex flex-col rounded-t-[60px] rounded-b-[48px] ${
               balanceSplitShown ? 'overflow-visible' : 'overflow-hidden'
             }`}
-            style={{
-              background: 'linear-gradient(180deg, rgba(255,255,255,0) 0%, #ffffff 66%)',
-            }}
           >
             <div
               className={`border border-b-0 rounded-t-[60px] shrink-0 ${
