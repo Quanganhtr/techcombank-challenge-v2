@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import Image from 'next/image'
+import { asset } from '../../lib/asset'
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 24 },
@@ -35,7 +36,7 @@ export function DynamicCreativeSection() {
         className="w-full max-w-3xl"
       >
         <Image
-          src="/banner-multi.png"
+          src={asset("/banner-multi.png")}
           alt="AI-powered Dynamic Creative — 3,125 banner variants"
           width={768}
           height={554}

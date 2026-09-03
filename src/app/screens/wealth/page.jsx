@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { useState, useRef, useEffect, useLayoutEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { asset } from '../../../lib/asset'
 
 /* ─── Image sequence player ─────────────────────────────────────────── */
 
@@ -11,7 +12,7 @@ const FPS = 30
 
 function frameSrc(n) {
   const name = n < 100 ? String(n).padStart(5, '0') : String(n).padStart(6, '0')
-  return `/image-sequences/${name}.webp`
+  return asset(`/image-sequences/${name}.webp`)
 }
 
 function ImageSequencePlayer() {
@@ -79,9 +80,9 @@ const BONDS = [
 const ASSET_FILTERS = ['All', 'Equities', 'Bonds', 'Fund']
 
 const TOP_GAINS = [
-  { ticker: 'TCB', change: '+ 1.29%', spark: '/sparkline-up.svg',   logo: '/tcb-logo.png', logoBg: '#f3f4f6' },
-  { ticker: 'VIC', change: '+ 0.98%', spark: '/sparkline-wave.svg', logo: '/vic-logo.png', logoBg: '#f3f4f6' },
-  { ticker: 'MSN', change: '+ 0.41%', spark: '/sparkline-wave.svg', logo: '/msn-logo.png', logoBg: '#101828' },
+  { ticker: 'TCB', change: '+ 1.29%', spark: asset('/sparkline-up.svg'),   logo: asset('/tcb-logo.png'), logoBg: '#f3f4f6' },
+  { ticker: 'VIC', change: '+ 0.98%', spark: asset('/sparkline-wave.svg'), logo: asset('/vic-logo.png'), logoBg: '#f3f4f6' },
+  { ticker: 'MSN', change: '+ 0.41%', spark: asset('/sparkline-wave.svg'), logo: asset('/msn-logo.png'), logoBg: '#101828' },
 ]
 
 /* ─── Micro-components ──────────────────────────────────────────────── */
@@ -136,9 +137,9 @@ function StatusBar({ dark = false }) {
     <div className="flex items-center justify-between px-14 pt-6 pb-1 shrink-0">
       <span className={`text-[15px] font-semibold ${dark ? 'text-content-primary' : 'text-white'}`}>9:41</span>
       <div className="flex items-center gap-1">
-        <Image src="/cellular.svg" alt="" width={16} height={16} style={imgStyle} />
-        <Image src="/wifi.svg"     alt="" width={16} height={16} style={imgStyle} />
-        <Image src="/battery.svg"  alt="" width={16} height={16} style={imgStyle} />
+        <Image src={asset("/cellular.svg")} alt="" width={16} height={16} style={imgStyle} />
+        <Image src={asset("/wifi.svg")}     alt="" width={16} height={16} style={imgStyle} />
+        <Image src={asset("/battery.svg")}  alt="" width={16} height={16} style={imgStyle} />
       </div>
     </div>
   )
@@ -321,9 +322,9 @@ function ExploreContent({ onDragStart, light = false }) {
   }, [activeFilter])
 
   const EQUITIES = [
-    { ticker: 'TCB', name: 'Vietnam Technological And Commercial Joint Stock Bank', logo: '/tcb-logo.png', logoBg: '#f3f4f6', price: '34.30',  change: '+1.29%' },
-    { ticker: 'VIC', name: 'VinGroup Joint Stock Company',                          logo: '/vic-logo.png', logoBg: '#f3f4f6', price: '217.10', change: '+0.98%' },
-    { ticker: 'MSN', name: 'Masan Group Corporation',                               logo: '/msn-logo.png', logoBg: '#101828', price: '72.80',  change: '+0.41%' },
+    { ticker: 'TCB', name: 'Vietnam Technological And Commercial Joint Stock Bank', logo: asset('/tcb-logo.png'), logoBg: '#f3f4f6', price: '34.30',  change: '+1.29%' },
+    { ticker: 'VIC', name: 'VinGroup Joint Stock Company',                          logo: asset('/vic-logo.png'), logoBg: '#f3f4f6', price: '217.10', change: '+0.98%' },
+    { ticker: 'MSN', name: 'Masan Group Corporation',                               logo: asset('/msn-logo.png'), logoBg: '#101828', price: '72.80',  change: '+0.41%' },
   ]
 
   const EXPLORE_BONDS = [
@@ -333,9 +334,9 @@ function ExploreContent({ onDragStart, light = false }) {
   ]
 
   const FUNDS = [
-    { ticker: 'TCEF',  name: 'Techcom Equity Fund',            logo: '/tcb-logo.png',  yield: '11.18%' },
-    { ticker: 'TCRES', name: 'Techcom Real Estate Equity Fund', logo: '/tcb-logo.png',  yield: '10.69%' },
-    { ticker: 'DCDS',  name: 'DC Dynamic Securities',           logo: '/dcds-logo.png', yield: '10.69%' },
+    { ticker: 'TCEF',  name: 'Techcom Equity Fund',            logo: asset('/tcb-logo.png'),  yield: '11.18%' },
+    { ticker: 'TCRES', name: 'Techcom Real Estate Equity Fund', logo: asset('/tcb-logo.png'),  yield: '10.69%' },
+    { ticker: 'DCDS',  name: 'DC Dynamic Securities',           logo: asset('/dcds-logo.png'), yield: '10.69%' },
   ]
 
   return (
@@ -420,7 +421,7 @@ function ExploreContent({ onDragStart, light = false }) {
                 <div className="flex-1 flex items-center justify-between min-w-0">
                   <div className="flex gap-4 items-center min-w-0">
                     <div className="rounded-full flex items-center justify-center shrink-0 size-11" style={{ background: '#bedbff' }}>
-                      <Image src="/invest-bonds.png" alt="" width={20} height={20} />
+                      <Image src={asset("/invest-bonds.png")} alt="" width={20} height={20} />
                     </div>
                     <div className="flex flex-col gap-1 min-w-0">
                       <p className={`text-[14px] font-medium leading-5 ${light ? 'text-[#111111]' : 'text-[#fafafa]'}`}>{bond.ticker}</p>
@@ -507,7 +508,7 @@ function BottomNav({ onNavigate }) {
   }
 
   const icons = {
-    home:       <Image src="/logo.svg"  alt="" width={24} height={24} />,
+    home:       <Image src={asset("/logo.svg")}  alt="" width={24} height={24} />,
     cards:      <Icon name="credit_card" size={24} className={active === 'cards' ? 'text-content-inverse' : 'text-content-secondary'} />,
     rewards:    <Icon name="redeem"      size={24} className={active === 'rewards' ? 'text-content-inverse' : 'text-content-secondary'} />,
     investment: <Icon name="money_bag"   size={24} className="text-content-inverse" />,
@@ -564,7 +565,7 @@ function BottomNav({ onNavigate }) {
           })}
         </div>
         <button className="size-14 rounded-full bg-surface-raised border border-border-strong flex items-center justify-center shrink-0 shadow-xl">
-          <Image src="/ai.png" alt="AI" width={24} height={24} />
+          <Image src={asset("/ai.png")} alt="AI" width={24} height={24} />
         </button>
       </div>
     </div>
@@ -627,7 +628,7 @@ function AnalyzeOverlay({ onClose, showCard = true, light = false }) {
           {/* TCB */}
           <div className="flex gap-4 items-start p-4">
             <div className={`size-12 rounded-full overflow-hidden shrink-0 relative ${dark ? 'bg-[#262626]' : 'bg-surface-sunken'}`}>
-              <Image src="/tcb-logo.png" alt="TCB" fill className="object-cover" />
+              <Image src={asset("/tcb-logo.png")} alt="TCB" fill className="object-cover" />
             </div>
             <div className="flex flex-col gap-1 flex-1 min-w-0">
               <p className={`text-[16px] font-medium leading-6 ${dark ? 'text-white' : 'text-content-primary'}`}>
@@ -640,7 +641,7 @@ function AnalyzeOverlay({ onClose, showCard = true, light = false }) {
           {/* VIC */}
           <div className="flex gap-4 items-start p-4">
             <div className={`size-12 rounded-full overflow-hidden shrink-0 relative ${dark ? 'bg-[#262626]' : 'bg-surface-sunken'}`}>
-              <Image src="/vic-logo.png" alt="VIC" fill className="object-cover" />
+              <Image src={asset("/vic-logo.png")} alt="VIC" fill className="object-cover" />
             </div>
             <div className="flex flex-col gap-1 flex-1 min-w-0">
               <p className={`text-[16px] font-medium leading-6 ${dark ? 'text-white' : 'text-content-primary'}`}>
@@ -658,7 +659,7 @@ function AnalyzeOverlay({ onClose, showCard = true, light = false }) {
           </div>
           <div className="flex gap-4 items-center p-4">
             <div className={`size-12 rounded-full overflow-hidden shrink-0 relative ${dark ? 'bg-white' : 'bg-surface-overlay'}`}>
-              <Image src="/msn-logo.png" alt="MSN" fill className="object-cover" />
+              <Image src={asset("/msn-logo.png")} alt="MSN" fill className="object-cover" />
             </div>
             <div className="flex flex-col gap-1 flex-1 min-w-0">
               <div className={`flex items-center justify-between text-[16px] font-medium leading-6 ${dark ? 'text-white' : 'text-content-primary'}`}>
@@ -679,7 +680,7 @@ function AnalyzeOverlay({ onClose, showCard = true, light = false }) {
           </button>
           <button className={`w-full rounded-full px-4 py-3 flex items-center justify-center gap-1 ${dark ? 'bg-white' : 'bg-surface-overlay'}`}>
             <div className="size-5 relative overflow-hidden shrink-0">
-              <Image src="/ai.png" alt="" fill className="object-contain" />
+              <Image src={asset("/ai.png")} alt="" fill className="object-contain" />
             </div>
             <span className={`text-[14px] font-medium ${dark ? 'text-[#111111]' : 'text-content-inverse'}`}>Ask AI</span>
           </button>
@@ -766,9 +767,9 @@ function ChipAvatar({ avatar, size = 24 }) {
 
 // Entry-screen suggestion tiles — same visual language as Home's TRI_ENTRY_SUGGESTIONS
 const WEALTH_ASK_SUGGESTIONS = [
-  { id: 1, rotate: -8, icon: '/icons-home/tri-suggestion-house.png',  iconBg: '#bedbff', label: 'Make a plan to buy house',                    message: 'Make a plan to buy house' },
-  { id: 2, rotate: 8,  icon: '/icons-home/tri-suggestion-plane.png',  iconBg: '#d5d4f7', label: 'Summarize my total spending on Bangkok Trip', message: 'Summarize my total spending on Bangkok Trip' },
-  { id: 3, rotate: -8, icon: '/icons-home/tri-suggestion-freeze.png', iconBg: '#fff4cc', label: 'Freeze my Credit card',                       message: 'Freeze my card' },
+  { id: 1, rotate: -8, icon: asset('/icons-home/tri-suggestion-house.png'),  iconBg: '#bedbff', label: 'Make a plan to buy house',                    message: 'Make a plan to buy house' },
+  { id: 2, rotate: 8,  icon: asset('/icons-home/tri-suggestion-plane.png'),  iconBg: '#d5d4f7', label: 'Summarize my total spending on Bangkok Trip', message: 'Summarize my total spending on Bangkok Trip' },
+  { id: 3, rotate: -8, icon: asset('/icons-home/tri-suggestion-freeze.png'), iconBg: '#fff4cc', label: 'Freeze my Credit card',                       message: 'Freeze my card' },
 ]
 
 /* Scripted "compare & buy" demo — pre-fills each step when TCB + VIC are both
@@ -990,7 +991,7 @@ function AskExpandScreen({ onClose, onOpenSearch, chatChips, onRemoveChip, onCon
                         animate={{ rotate: 360, scale: [1, 1.18, 1] }}
                         transition={{ rotate: { duration: 1.6, repeat: Infinity, ease: 'linear' }, scale: { duration: 0.9, repeat: Infinity, ease: 'easeInOut' } }}
                       >
-                        <Image src="/ai.png" alt="" width={28} height={28} />
+                        <Image src={asset("/ai.png")} alt="" width={28} height={28} />
                       </motion.div>
                     </div>
                   )}
@@ -1061,7 +1062,7 @@ function AskExpandScreen({ onClose, onOpenSearch, chatChips, onRemoveChip, onCon
               disabled={!canSend}
               className={`rounded-full p-2 flex items-center justify-center shrink-0 disabled:opacity-40 ${light ? 'bg-[#111111]' : 'bg-white'}`}
             >
-              <Image src="/ai.png" alt="" width={24} height={24} />
+              <Image src={asset("/ai.png")} alt="" width={24} height={24} />
             </button>
           </div>
         </div>
@@ -1254,9 +1255,9 @@ export default function WealthScreen({ onNavigate, embedded = false, onOpenSearc
   }
 
   const SUMMARY = [
-    { icon: '/invest-equities.png', label: 'Equities', value: '12,008,897', align: 'items-start'  },
-    { icon: '/invest-bonds.png',    label: 'Bonds',    value: '10,000,000', align: 'items-center' },
-    { icon: '/invest-funds.png',    label: 'Fund',     value: '2,000,000',  align: 'items-end'    },
+    { icon: asset('/invest-equities.png'), label: 'Equities', value: '12,008,897', align: 'items-start'  },
+    { icon: asset('/invest-bonds.png'),    label: 'Bonds',    value: '10,000,000', align: 'items-center' },
+    { icon: asset('/invest-funds.png'),    label: 'Fund',     value: '2,000,000',  align: 'items-end'    },
   ]
 
   return (
@@ -1397,7 +1398,7 @@ export default function WealthScreen({ onNavigate, embedded = false, onOpenSearc
                         </span>
                       </div>
                       <button onClick={() => setHidden(v => !v)} className="flex items-center shrink-0">
-                        <Image src={hidden ? '/icons-home-v2/visibility-off.svg' : '/icons-home-v2/visibility.svg'} alt="" width={20} height={20} />
+                        <Image src={hidden ? asset('/icons-home-v2/visibility-off.svg') : asset('/icons-home-v2/visibility.svg')} alt="" width={20} height={20} />
                       </button>
                     </div>
                     <div className="flex gap-1 items-center text-[14px] font-medium leading-5 tracking-[0.28px]">
@@ -1406,7 +1407,7 @@ export default function WealthScreen({ onNavigate, embedded = false, onOpenSearc
                     </div>
                   </div>
                   <div className="flex flex-col items-end justify-between self-stretch shrink-0">
-                    <img src={light ? '/wealth-balance-spark-light.svg' : '/wealth-balance-spark.svg'} alt="" className="w-24 h-10 object-contain" />
+                    <img src={light ? asset('/wealth-balance-spark-light.svg') : asset('/wealth-balance-spark.svg')} alt="" className="w-24 h-10 object-contain" />
                     <button
                       onClick={() => setChartCollapsed(v => !v)}
                       className={`rounded-full p-0.5 flex items-center justify-center ${light ? 'bg-[#e5e5e5]' : 'bg-[#262626]'}`}
@@ -1427,7 +1428,7 @@ export default function WealthScreen({ onNavigate, embedded = false, onOpenSearc
                         </span>
                       </div>
                       <button onClick={() => setHidden(v => !v)} className="flex items-center shrink-0">
-                        <Image src={hidden ? '/icons-home-v2/visibility-off.svg' : '/icons-home-v2/visibility.svg'} alt="" width={20} height={20} />
+                        <Image src={hidden ? asset('/icons-home-v2/visibility-off.svg') : asset('/icons-home-v2/visibility.svg')} alt="" width={20} height={20} />
                       </button>
                     </div>
                     <div className="flex gap-1 items-center text-[14px] font-medium leading-5 tracking-[0.28px]">
@@ -1454,7 +1455,7 @@ export default function WealthScreen({ onNavigate, embedded = false, onOpenSearc
               >
                 <div className={`relative border rounded-[48px] overflow-hidden ${light ? 'bg-white border-[#f0f0f0]' : 'bg-[#171717] border-[#171717]'}`}>
                   <img
-                    src={light ? '/wealth-summary-texture-light.svg' : '/wealth-summary-texture.svg'}
+                    src={light ? asset('/wealth-summary-texture-light.svg') : asset('/wealth-summary-texture.svg')}
                     alt=""
                     className="absolute left-0 pointer-events-none w-full"
                     style={{ top: 108, height: 201 }}
@@ -1474,7 +1475,7 @@ export default function WealthScreen({ onNavigate, embedded = false, onOpenSearc
 
                   {/* Chart */}
                   <div className="pt-3">
-                    <img src="/wealth-chart.svg" alt="" className="w-full h-[92px] object-cover" />
+                    <img src={asset("/wealth-chart.svg")} alt="" className="w-full h-[92px] object-cover" />
                     <div className="flex items-center justify-between px-6 pb-6 pt-4">
                       {/* Time filter pills */}
                       <div className={`relative rounded-full p-1 flex items-start overflow-hidden ${light ? 'bg-[#f5f5f5]' : 'bg-[#171717]'}`}>
@@ -1606,13 +1607,13 @@ export default function WealthScreen({ onNavigate, embedded = false, onOpenSearc
 
                   <div className="shrink-0 pt-3 pb-14">
                     <div
-                      onPointerDown={(e) => startDrag(e, { ticker: 'TCB', avatar: { type: 'image', src: '/tcb-logo.png', bg: '#f3f4f6' } })}
+                      onPointerDown={(e) => startDrag(e, { ticker: 'TCB', avatar: { type: 'image', src: asset('/tcb-logo.png'), bg: '#f3f4f6' } })}
                       className="pl-4 pr-2 py-3 flex gap-2 items-center touch-none cursor-grab active:cursor-grabbing"
                     >
                       <div className="flex-1 flex items-center justify-between min-w-0">
                         <div className="flex gap-4 items-center">
                           <div className="size-11 rounded-full bg-[#f3f4f6] overflow-hidden relative shrink-0">
-                            <Image src="/tcb-logo.png" alt="TCB" fill className="object-cover" />
+                            <Image src={asset("/tcb-logo.png")} alt="TCB" fill className="object-cover" />
                           </div>
                           <div className="flex flex-col gap-1">
                             <span className={`text-[14px] font-medium leading-5 tracking-[0.28px] ${light ? 'text-[#111111]' : 'text-[#d4d4d4]'}`}>TCB</span>
@@ -1641,7 +1642,7 @@ export default function WealthScreen({ onNavigate, embedded = false, onOpenSearc
                           <div className="flex-1 flex items-center justify-between min-w-0">
                             <div className="flex gap-4 items-center">
                               <div className="rounded-full flex items-center justify-center shrink-0 size-11" style={{ background: '#bedbff' }}>
-                                <Image src="/invest-bonds.png" alt="" width={20} height={20} />
+                                <Image src={asset("/invest-bonds.png")} alt="" width={20} height={20} />
                               </div>
                               <div className="flex flex-col gap-1">
                                 <span className={`text-[14px] font-medium leading-5 tracking-[0.28px] ${light ? 'text-[#111111]' : 'text-[#d4d4d4]'}`}>{bond.ticker}</span>
@@ -1797,7 +1798,7 @@ export default function WealthScreen({ onNavigate, embedded = false, onOpenSearc
               </AnimatePresence>
             </div>
             <div className="size-6 flex items-center justify-center shrink-0">
-              <Image src="/ai.png" alt="" width={24} height={24} />
+              <Image src={asset("/ai.png")} alt="" width={24} height={24} />
             </div>
           </motion.div>
         </div>
@@ -1906,10 +1907,10 @@ export default function WealthScreen({ onNavigate, embedded = false, onOpenSearc
             {/* Products */}
             <div className="flex gap-2 items-center justify-center px-6 pt-3 pb-8 w-full">
               {[
-                { label: 'Equities', icon: '/invest-equities.png', bg: '#d5d4f7' },
-                { label: 'Bonds',    icon: '/invest-bonds.png',    bg: '#bedbff' },
-                { label: 'Funds',    icon: '/invest-funds.png',    bg: '#fff4cc' },
-                { label: 'Top up',   icon: '/invest-topup.png',    bg: light ? '#262626' : '#e5e5e5' },
+                { label: 'Equities', icon: asset('/invest-equities.png'), bg: '#d5d4f7' },
+                { label: 'Bonds',    icon: asset('/invest-bonds.png'),    bg: '#bedbff' },
+                { label: 'Funds',    icon: asset('/invest-funds.png'),    bg: '#fff4cc' },
+                { label: 'Top up',   icon: asset('/invest-topup.png'),    bg: light ? '#262626' : '#e5e5e5' },
               ].map(item => (
                 <div key={item.label} className="flex-1 flex flex-col gap-1 items-center justify-center min-w-0">
                   <div className="rounded-full flex items-center justify-center" style={{ background: item.bg, width: 90, height: 90 }}>

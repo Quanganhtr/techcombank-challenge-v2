@@ -3,6 +3,7 @@
 import { useRef, useState, useLayoutEffect, useEffect } from 'react'
 import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion'
 import { SearchScreen } from '@/app/screens/home/page'
+import { asset } from '../../lib/asset'
 
 const PHONE_H = 956
 const PHONE_W = 440
@@ -106,7 +107,7 @@ export function SearchSection() {
             </div>
 
             <img
-              src="/mockup.png"
+              src={asset("/mockup.png")}
               alt=""
               className="absolute pointer-events-none z-10 max-w-none"
               style={{ top: -16, left: -16, width: PHONE_W + 32, height: PHONE_H + 32 }}

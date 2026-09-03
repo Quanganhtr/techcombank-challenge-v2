@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence, LayoutGroup, animate } from 'framer-motion'
 import WealthScreen from '@/app/screens/wealth/page'
+import { asset } from '../../../lib/asset'
 
 /* ─── Data ─────────────────────────────────────────────────────────── */
 
@@ -110,9 +111,9 @@ function StatusBar({ dark = false }) {
     <div className="flex items-center justify-between px-14 pt-6 pb-1 shrink-0">
       <span className={`text-[15px] font-semibold ${dark ? 'text-content-primary' : 'text-white'}`}>9:41</span>
       <div className="flex items-center gap-1">
-        <Image src="/cellular.svg" alt="" width={16} height={16} style={imgStyle} />
-        <Image src="/wifi.svg"     alt="" width={16} height={16} style={imgStyle} />
-        <Image src="/battery.svg"  alt="" width={16} height={16} style={imgStyle} />
+        <Image src={asset("/cellular.svg")} alt="" width={16} height={16} style={imgStyle} />
+        <Image src={asset("/wifi.svg")}     alt="" width={16} height={16} style={imgStyle} />
+        <Image src={asset("/battery.svg")}  alt="" width={16} height={16} style={imgStyle} />
       </div>
     </div>
   )
@@ -126,7 +127,7 @@ function TopNav({ onOpenSearch, light = false }) {
   return (
     <div className="flex items-center justify-between pl-6 pr-3 pb-3 pt-16 shrink-0">
       <div className="h-8 relative shrink-0" style={{ width: 48 }}>
-        <Image src="/logo-new.svg" alt="TCB" fill className="object-contain object-left" />
+        <Image src={asset("/logo-new.svg")} alt="TCB" fill className="object-contain object-left" />
       </div>
       <div className="flex items-center gap-1">
         <button className={btnCls}>
@@ -153,7 +154,7 @@ function BalanceSection({ onOpenOverlay, light = false }) {
           <div className={`flex gap-1 font-mono ${hidden ? 'items-center' : 'items-baseline'}`}>
             <span className="text-[30px] leading-10 font-bold tabular-nums text-[#737373]">VND</span>
             {hidden ? (
-              <Image src="/icons-home-v2/hiding.svg" alt="" width={108} height={40} style={light ? { filter: 'invert(1)' } : undefined} />
+              <Image src={asset("/icons-home-v2/hiding.svg")} alt="" width={108} height={40} style={light ? { filter: 'invert(1)' } : undefined} />
             ) : (
               <span className={`text-[30px] leading-10 font-bold tabular-nums ${light ? 'text-[#111111]' : 'text-white'}`}>
                 10,090,008
@@ -161,14 +162,14 @@ function BalanceSection({ onOpenOverlay, light = false }) {
             )}
           </div>
           <button onClick={() => setHidden(v => !v)} className="flex items-center shrink-0">
-            <Image src={hidden ? '/icons-home-v2/visibility-off.svg' : '/icons-home-v2/visibility.svg'} alt="" width={20} height={20} />
+            <Image src={hidden ? asset('/icons-home-v2/visibility-off.svg') : asset('/icons-home-v2/visibility.svg')} alt="" width={20} height={20} />
           </button>
         </div>
         <button
           onClick={onOpenOverlay}
           className={`rounded-full px-3 py-1 flex items-center gap-1 shrink-0 ${light ? 'bg-black' : 'bg-white'}`}
         >
-          <Image src="/insight-icon.png" alt="" width={20} height={20} className="shrink-0" />
+          <Image src={asset("/insight-icon.png")} alt="" width={20} height={20} className="shrink-0" />
           <span className={`text-[14px] font-medium leading-5 tracking-[0.28px] whitespace-nowrap ${light ? 'text-white' : 'text-black'}`}>Insight</span>
         </button>
       </div>
@@ -177,10 +178,10 @@ function BalanceSection({ onOpenOverlay, light = false }) {
 }
 
 const HOME_ACTIONS = [
-  { icon: '/banner-piggy.png',    label: 'Savings',  fit: 'object-bottom' },
-  { icon: '/action-transfer.png', label: 'Transfer', fit: 'object-bottom' },
-  { icon: '/action-qr.png',       label: 'Scan QR',  fit: 'object-contain' },
-  { icon: '/action-paybills.png', label: 'Pay bills', fit: 'object-cover' },
+  { icon: asset('/banner-piggy.png'),    label: 'Savings',  fit: 'object-bottom' },
+  { icon: asset('/action-transfer.png'), label: 'Transfer', fit: 'object-bottom' },
+  { icon: asset('/action-qr.png'),       label: 'Scan QR',  fit: 'object-contain' },
+  { icon: asset('/action-paybills.png'), label: 'Pay bills', fit: 'object-cover' },
 ]
 
 function ActionsRow({ light = false }) {
@@ -264,7 +265,7 @@ function UPointProgress({ light = false }) {
             className={`absolute top-0 flex items-center gap-1 ${isLast ? '' : '-translate-x-1/2'}`}
             style={isLast ? { right: 0 } : { left: `${(at / UPOINT_TOTAL) * 100}%` }}
           >
-            <Image src="/upoint-icon.svg" alt="" width={20} height={20} />
+            <Image src={asset("/upoint-icon.svg")} alt="" width={20} height={20} />
             <span className="text-[14px] font-medium leading-5 tracking-[0.28px] text-[#a1a1a1] whitespace-nowrap">{reward}</span>
           </div>
           )
@@ -313,7 +314,7 @@ function PromoBanners({ light = false }) {
                   ))}
                 </div>
                 <div className="absolute pointer-events-none" style={{ left: 260, top: 56, width: 156, height: 156 }}>
-                  <Image src="/banner-auto-earning-u.png" alt="" fill className="object-cover" />
+                  <Image src={asset("/banner-auto-earning-u.png")} alt="" fill className="object-cover" />
                 </div>
               </div>
 
@@ -453,7 +454,7 @@ function MenuToggleIcon({ open, light = false }) {
   }
   return (
     <Image
-      src="/menu.svg"
+      src={asset("/menu.svg")}
       alt=""
       width={24}
       height={24}
@@ -544,7 +545,7 @@ function BottomBar({ onOpenTri, triMode, onCloseTri, triHovered, keyboardOpen, o
             )}
           </div>
           <div className="size-6 flex items-center justify-center shrink-0">
-            <Image src="/ai.png" alt="" width={24} height={24} />
+            <Image src={asset("/ai.png")} alt="" width={24} height={24} />
           </div>
         </motion.div>
       </motion.div>
@@ -569,7 +570,7 @@ function BottomBar({ onOpenTri, triMode, onCloseTri, triHovered, keyboardOpen, o
         >
           <span className="t-caption text-white whitespace-nowrap">Ask AI anything...</span>
           <div className="size-6 flex items-center justify-center shrink-0">
-            <Image src="/ai.png" alt="" width={24} height={24} />
+            <Image src={asset("/ai.png")} alt="" width={24} height={24} />
           </div>
         </button>
       </motion.div>
@@ -591,7 +592,7 @@ function BottomBar({ onOpenTri, triMode, onCloseTri, triHovered, keyboardOpen, o
             <BlinkingCursor />
           </span>
           <button onClick={onSend} className="size-6 flex items-center justify-center shrink-0">
-            <Image src="/ai.png" alt="" width={24} height={24} />
+            <Image src={asset("/ai.png")} alt="" width={24} height={24} />
           </button>
         </div>
         <button
@@ -653,17 +654,17 @@ function MenuSheet({ onClose, onNavigateWealth, onToggleTheme, light = false, ac
             style={{ left: 192, top: '50%', width: 274, height: 214, transform: 'translateY(-50%)' }}
           >
             <div className="relative shrink-0 opacity-40 rotate-[15deg]" style={{ width: 241, height: 157 }}>
-              <Image src="/menu-profile-pattern.png" alt="" fill className="object-cover" />
+              <Image src={asset("/menu-profile-pattern.png")} alt="" fill className="object-cover" />
             </div>
           </div>
           <div className="relative flex items-center gap-3">
             <div className="size-14 rounded-full bg-[#e5e5e5] overflow-hidden relative shrink-0">
-              <Image src="/avatar.png" alt="QA" fill className="object-cover" />
+              <Image src={asset("/avatar.png")} alt="QA" fill className="object-cover" />
             </div>
             <div className="flex flex-col gap-2 items-start">
               <span className={`t-label-lg ${dark ? 'text-white' : 'text-black'}`}>Quang Anh</span>
               <div className={`rounded-full px-2 py-1 flex items-center gap-1 ${dark ? 'bg-white' : 'bg-black'}`}>
-                <Image src="/logo.svg" alt="" width={16} height={16} />
+                <Image src={asset("/logo.svg")} alt="" width={16} height={16} />
                 <span className={`text-[12px] font-medium leading-4 whitespace-nowrap ${dark ? 'text-black' : 'text-white'}`}>Inspire Max</span>
               </div>
             </div>
@@ -722,7 +723,7 @@ function MenuSheet({ onClose, onNavigateWealth, onToggleTheme, light = false, ac
               <p className="text-[12px] leading-4 text-[#737373]">For a smoother branch visit</p>
             </div>
             <div className="relative h-[79px] shrink-0">
-              <Image src={light ? '/menu-map-dark.png' : '/menu-map.png'} alt="" fill className="object-cover" />
+              <Image src={light ? asset('/menu-map-dark.png') : asset('/menu-map.png')} alt="" fill className="object-cover" />
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="bg-info rounded-full p-1 flex items-center justify-center shadow-lg">
                   <Icon name="location_on" size={20} className="text-white" />
@@ -823,7 +824,7 @@ function GoalProgressCard({ dark = false, showCard = true }) {
             </span>
           </div>
           <div className="rounded-full p-2 bg-[#bedbff] flex items-center justify-center shrink-0">
-            <Image src="/insight-house.png" alt="" width={32} height={32} />
+            <Image src={asset("/insight-house.png")} alt="" width={32} height={32} />
           </div>
         </div>
         <p className={`text-[14px] font-medium leading-5 tracking-[0.28px] w-full ${dark ? 'text-[#737373]' : 'text-white'}`}>You are going half of the way</p>
@@ -978,7 +979,7 @@ function CoffeeInsightCard({ dark = false, effectKey = null }) {
         <p className="text-[14px] font-medium leading-5 text-[#737373] tracking-[0.28px]">on daily coffee this month</p>
       </div>
       <div className="relative rounded-full p-2 flex items-center justify-center shrink-0 bg-[#d5d4f7]">
-        <Image src="/insight-coffee-3d.png" alt="" width={32} height={32} />
+        <Image src={asset("/insight-coffee-3d.png")} alt="" width={32} height={32} />
       </div>
     </motion.div>
   )
@@ -1109,7 +1110,7 @@ function BalanceOverlay({ onClose, onAddInsight, onRemoveInsight, showCard = tru
                     <InsightStatCard
                       label="You have"
                       dark={dark}
-                      iconSrc="/insight-cash.png"
+                      iconSrc={asset("/insight-cash.png")}
                       iconBg="#fff085"
                       iconClassName="-scale-x-100"
                       value={<CountUp to={53} format={(v) => `${Math.round(v)}m`} className={`block text-[24px] font-bold leading-8 tracking-[0.48px] ${dark ? 'text-white' : 'text-black'}`} />}
@@ -1121,7 +1122,7 @@ function BalanceOverlay({ onClose, onAddInsight, onRemoveInsight, showCard = tru
                     <InsightStatCard
                       label="You already spent"
                       dark={dark}
-                      iconSrc="/insight-wallet.png"
+                      iconSrc={asset("/insight-wallet.png")}
                       iconBg="#d9f99d"
                       value={
                         <p className={`text-[24px] font-bold leading-8 tracking-[0.48px] tabular-nums whitespace-nowrap ${dark ? 'text-white' : 'text-black'}`}>
@@ -1148,7 +1149,7 @@ function BalanceOverlay({ onClose, onAddInsight, onRemoveInsight, showCard = tru
                     transition={{ type: 'spring', stiffness: 300, damping: 28 }}
                     className={`w-[200px] shrink-0 min-w-0 border border-dashed rounded-[40px] p-6 flex flex-col items-center justify-center gap-2 ${insightAdded ? 'order-2' : 'order-1'} ${dark ? 'border-[#fafafa]' : 'border-[#0a0a0a]'}`}
                   >
-                    <Image src="/ai.png" alt="" width={40} height={40} />
+                    <Image src={asset("/ai.png")} alt="" width={40} height={40} />
                     <span className={`text-[16px] font-semibold leading-6 tracking-[0.32px] text-center whitespace-nowrap ${dark ? 'text-white' : 'text-content-primary'}`}>Add new insight</span>
                   </motion.button>
                   <AnimatePresence mode="popLayout" initial={false}>
@@ -1281,7 +1282,7 @@ function TransactionOverlay({ onClose, showCard = true, light = false }) {
                   </button>
                 ))}
                 <button onClick={onClose} className={`w-full flex items-center justify-center gap-2 px-4 py-3 rounded-full ${dark ? 'bg-white' : 'bg-surface-overlay'}`}>
-                  <Image src="/ai.png" alt="AI" width={20} height={20} />
+                  <Image src={asset("/ai.png")} alt="AI" width={20} height={20} />
                   <span className={`text-[14px] font-medium ${dark ? 'text-[#111111]' : 'text-content-inverse'}`}>Ask a follow-up</span>
                 </button>
               </div>
@@ -1296,9 +1297,9 @@ function TransactionOverlay({ onClose, showCard = true, light = false }) {
 /* ─── TRÍ Screen ────────────────────────────────────────────────────── */
 
 const TRI_ENTRY_SUGGESTIONS = [
-  { id: 1, rotate: -8, icon: '/icons-home/tri-suggestion-house.png',  iconBg: '#bedbff', label: 'Make a plan to buy house',                    message: 'Make a plan to buy house' },
-  { id: 2, rotate: 8,  icon: '/icons-home/tri-suggestion-plane.png',  iconBg: '#d5d4f7', label: 'Summarize my total spending on Bangkok Trip', message: 'Summarize my total spending on Bangkok Trip' },
-  { id: 3, rotate: -8, icon: '/icons-home/tri-suggestion-freeze.png', iconBg: '#fff4cc', label: 'Freeze my Credit card',                       message: 'Freeze my card' },
+  { id: 1, rotate: -8, icon: asset('/icons-home/tri-suggestion-house.png'),  iconBg: '#bedbff', label: 'Make a plan to buy house',                    message: 'Make a plan to buy house' },
+  { id: 2, rotate: 8,  icon: asset('/icons-home/tri-suggestion-plane.png'),  iconBg: '#d5d4f7', label: 'Summarize my total spending on Bangkok Trip', message: 'Summarize my total spending on Bangkok Trip' },
+  { id: 3, rotate: -8, icon: asset('/icons-home/tri-suggestion-freeze.png'), iconBg: '#fff4cc', label: 'Freeze my Credit card',                       message: 'Freeze my card' },
 ]
 
 function TriScreen({ onClose, onOpenSearch, onOpenChat, light = false }) {
@@ -1404,7 +1405,7 @@ function TriScreen({ onClose, onOpenSearch, onOpenChat, light = false }) {
               <span className="flex-1 t-body text-[#a1a1a1] text-left">Ask anything</span>
             </div>
             <div className={`rounded-full p-2 flex items-center justify-center shrink-0 ${light ? 'bg-[#111111]' : 'bg-white'}`}>
-              <Image src="/ai.png" alt="" width={24} height={24} />
+              <Image src={asset("/ai.png")} alt="" width={24} height={24} />
             </div>
           </button>
         </div>
@@ -1564,7 +1565,7 @@ function InsightChatScreen({ onClose, onOpenSearch, onViewInsight, light = false
                     animate={{ rotate: 360, scale: [1, 1.18, 1] }}
                     transition={{ rotate: { duration: 1.6, repeat: Infinity, ease: 'linear' }, scale: { duration: 0.9, repeat: Infinity, ease: 'easeInOut' } }}
                   >
-                    <Image src="/ai.png" alt="" width={28} height={28} />
+                    <Image src={asset("/ai.png")} alt="" width={28} height={28} />
                   </motion.div>
                 </div>
               )}
@@ -1603,7 +1604,7 @@ function InsightChatScreen({ onClose, onOpenSearch, onViewInsight, light = false
                 disabled={!canSend}
                 className={`rounded-full p-2 flex items-center justify-center shrink-0 disabled:opacity-40 ${light ? 'bg-[#111111]' : 'bg-white'}`}
               >
-                <Image src="/ai.png" alt="" width={24} height={24} />
+                <Image src={asset("/ai.png")} alt="" width={24} height={24} />
               </button>
             </div>
           </div>
@@ -1900,7 +1901,7 @@ export function SearchScreen({ onClose, onOpenChat, autoType = false, light = fa
                       className="flex gap-4 items-center px-4 py-3 w-full text-left"
                     >
                       <div className="p-2.5 rounded-full flex items-center justify-center shrink-0 bg-cinnabar-200">
-                        <Image src="/ai.png" alt="" width={24} height={24} />
+                        <Image src={asset("/ai.png")} alt="" width={24} height={24} />
                       </div>
                       <span className={`flex-1 text-[14px] font-medium leading-5 ${primaryText}`}>{item.label}</span>
                       <Icon name="chevron_right" size={20} className="text-[#737373] shrink-0" />
@@ -1935,9 +1936,9 @@ export function SearchScreen({ onClose, onOpenChat, autoType = false, light = fa
                           card.icon === 'tri' ? 'bg-cinnabar-200' : card.icon === 'savings' ? 'bg-lime-100' : iconPillBg
                         }`}>
                           {card.icon === 'tri' ? (
-                            <Image src="/ai.png" alt="" width={24} height={24} />
+                            <Image src={asset("/ai.png")} alt="" width={24} height={24} />
                           ) : card.icon === 'savings' ? (
-                            <Image src="/invest-savings.png" alt="" width={24} height={24} />
+                            <Image src={asset("/invest-savings.png")} alt="" width={24} height={24} />
                           ) : (
                             <Icon name={card.icon} size={24} className={iconPillFg} />
                           )}
@@ -1965,9 +1966,9 @@ export function SearchScreen({ onClose, onOpenChat, autoType = false, light = fa
                         stock.icon === 'candlestick_chart' ? 'bg-[#d5d4f7]' : stock.icon === 'bar_chart' ? 'bg-[#fff4cc]' : iconPillBg
                       }`}>
                         {stock.icon === 'candlestick_chart' ? (
-                          <Image src="/invest-equities.png" alt="" width={24} height={24} />
+                          <Image src={asset("/invest-equities.png")} alt="" width={24} height={24} />
                         ) : stock.icon === 'bar_chart' ? (
-                          <Image src="/invest-funds.png" alt="" width={24} height={24} />
+                          <Image src={asset("/invest-funds.png")} alt="" width={24} height={24} />
                         ) : (
                           <Icon name={stock.icon} size={24} className={iconPillFg} />
                         )}

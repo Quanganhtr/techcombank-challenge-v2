@@ -3,6 +3,7 @@
 import { useLayoutEffect, useRef, useState } from 'react'
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion'
 import Image from 'next/image'
+import { asset } from '../../lib/asset'
 
 const IMAGE_ASPECT = 1832 / 1664 // tin.png native height / width
 const SIDE_GAP = 128 // 128px gap from left/right screen edges (Figma)
@@ -56,7 +57,7 @@ export function Hero() {
       <div className="bg-surface-raised sticky top-0 h-screen w-full overflow-hidden">
         <motion.div style={{ top: imageTop, width, height }} className="absolute left-1/2 -translate-x-1/2 z-0">
           <Image
-            src="/tin.png"
+            src={asset("/tin.png")}
             alt="Techcombank Mobile AI-First Redesign — Home, Search and Wealth screens preview"
             fill
             sizes="100vw"

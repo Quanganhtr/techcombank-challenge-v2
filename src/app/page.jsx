@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { useState } from 'react'
 import HomeScreen from '@/app/screens/home/page'
+import { asset } from '../lib/asset'
 
 const PHONE_W = 440
 const PHONE_H = 956
@@ -37,7 +38,7 @@ export default function Home() {
       <div className="relative shrink-0" style={{ width: PHONE_W, height: PHONE_H }}>
         {/* Phone frame — overflows 16px beyond the screen on each side */}
         <Image
-          src="/mockup.png"
+          src={asset("/mockup.png")}
           alt=""
           width={PHONE_W + 32}
           height={PHONE_H + 32}

@@ -4,6 +4,7 @@ import { useLayoutEffect, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence, useScroll, useSpring, useTransform, useMotionValue, LayoutGroup } from 'framer-motion'
 import WealthScreen from '@/app/screens/wealth/page'
+import { asset } from '../../lib/asset'
 
 const TITLE_TOP = 128
 const TEXT_GAP  = 64
@@ -225,7 +226,7 @@ export function WealthSection() {
             />
 
             <Image
-              src="/mockup.png"
+              src={asset("/mockup.png")}
               alt=""
               width={PHONE_W + 32}
               height={PHONE_H + 32}

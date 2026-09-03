@@ -3,6 +3,7 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Image from 'next/image'
+import { asset } from '../../lib/asset'
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 24 },
@@ -44,7 +45,7 @@ export function IntroduceTri() {
         className="relative overflow-hidden w-full max-w-[725px] aspect-[725/720]"
       >
         <Image
-          src="/introduce-tri.png"
+          src={asset("/introduce-tri.png")}
           alt="TRÍ — Techcombank AI companion on iPhone"
           fill
           sizes="(max-width: 768px) 100vw, 725px"
