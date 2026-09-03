@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence, LayoutGroup, animate } from 'framer-motion'
-import WealthScreen from '@/app/screens/wealth/page'
 import { asset } from '../../../lib/asset'
 
 /* ─── Data ─────────────────────────────────────────────────────────── */
@@ -461,7 +460,7 @@ function MenuToggleIcon({ open }) {
   )
 }
 
-function BottomBar({ onOpenTri, triMode, onCloseTri, triHovered, keyboardOpen, onOpenKeyboard, onCloseKeyboard, onSend, menuOpen, onOpenMenu, attachedCount = 0, onClearAttached, interactive = true }) {
+function BottomBar({ onOpenTri, triMode, onCloseTri, triHovered, keyboardOpen, onOpenKeyboard, onCloseKeyboard, onSend, menuOpen, onOpenMenu, attachedCount = 0, onClearAttached }) {
   const fade = { duration: 0.18, ease: 'easeInOut' }
 
   return (
@@ -470,7 +469,7 @@ function BottomBar({ onOpenTri, triMode, onCloseTri, triHovered, keyboardOpen, o
       {/* Normal mode */}
       <motion.div
         initial={false}
-        animate={{ opacity: triMode ? 0 : 1, y: triMode ? 4 : 0, pointerEvents: (triMode || !interactive) ? 'none' : 'auto' }}
+        animate={{ opacity: triMode ? 0 : 1, y: triMode ? 4 : 0, pointerEvents: triMode ? 'none' : 'auto' }}
         transition={fade}
         className="absolute inset-0 flex items-center gap-2"
       >
@@ -498,11 +497,7 @@ function BottomBar({ onOpenTri, triMode, onCloseTri, triHovered, keyboardOpen, o
             x: menuOpen ? 380 : 0,
             rotate: menuOpen ? 4 : 0,
             opacity: menuOpen ? 0 : 1,
-            // Framer sets this inline, which otherwise punches straight through
-            // the ancestor's `pointer-events-none` (applied while Wealth is
-            // showing) — an inline pointer-events value always wins over a
-            // class on a parent, so it must factor `interactive` in too.
-            pointerEvents: (menuOpen || !interactive) ? 'none' : 'auto',
+            pointerEvents: menuOpen ? 'none' : 'auto',
           }}
           transition={{ type: 'spring', stiffness: 260, damping: 26 }}
           onClick={(e) => {
@@ -611,7 +606,7 @@ const MENU_ITEMS = [
   { label: 'Accounts & Cards',  icon: 'wallet'    },
   { label: 'Transfer & Pay',    icon: 'mobiledata_arrows' },
   { label: 'Techcombank OneU',  icon: 'money_bag' },
-  { label: 'My Wealth',         icon: 'lightbulb',       navKey: 'investment' },
+  { label: 'My Wealth',         icon: 'lightbulb'     },
 ]
 
 const MENU_QUICK_LINKS = [
@@ -621,7 +616,7 @@ const MENU_QUICK_LINKS = [
   { label: 'Refer & Earn',  icon: 'group' },
 ]
 
-function MenuSheet({ onClose, onNavigateWealth, activeNav = 'home' }) {
+function MenuSheet({ onClose, activeNav = 'home' }) {
   // Same contrast rule as the other overlays: dark sheet on the light app surface.
   
 
@@ -682,7 +677,7 @@ function MenuSheet({ onClose, onNavigateWealth, activeNav = 'home' }) {
             return (
               <button
                 key={label}
-                onClick={label === 'Home' ? onClose : label === 'My Wealth' ? onNavigateWealth : undefined}
+                onClick={label === 'Home' ? onClose : undefined}
                 className={`flex items-center gap-6 px-6 w-full text-left ${
                   i === 0 ? 'pt-6 pb-4' : i === MENU_ITEMS.length - 1 ? 'pt-4 pb-6' : 'py-4'
                 }`}
@@ -2027,19 +2022,12 @@ export default function HomeScreen({
   triOpen: extTri,
   onTriClose: extTriClose,
   triHovered = false,
-  defaultTab = 'home',
   onTesterNoteChange,
 } = {}) {
   const [internalOverlay,     setInternalOverlay]     = useState(false)
   const [showTriScreen,       setShowTriScreen]       = useState(false)
   const [keyboardOpen,        setKeyboardOpen]        = useState(false)
   const [showSearch,          setShowSearch]          = useState(false)
-  const [navActive,           setNavActive]           = useState(defaultTab)
-  const [wealthAnalyzeOpen,   setWealthAnalyzeOpen]   = useState(false)
-  const [wealthInvestOpen,    setWealthInvestOpen]    = useState(false)
-  const [wealthAskChatOpen,   setWealthAskChatOpen]   = useState(false)
-  const [wealthOpenAskOnMount, setWealthOpenAskOnMount] = useState(false)
-  const [wealthChatChips,     setWealthChatChips]     = useState([])
   const [menuOpen,            setMenuOpen]            = useState(false)
   const [showInsightChat,     setShowInsightChat]     = useState(false)
   const [insightAdded,        setInsightAdded]        = useState(false)
@@ -2047,8 +2035,6 @@ export default function HomeScreen({
   const [balanceSplitActive,  setBalanceSplitActive]  = useState(false)
   const [balanceCornerActive, setBalanceCornerActive] = useState(false)
   const balanceCornerTimerRef = useRef(null)
-  const [pageTransition,      setPageTransition]      = useState(null)
-  const pageTransitionTimerRef = useRef(null)
   const [bgScrollY,           setBgScrollY]           = useState(0)
   const MAX_BG_SCROLL = 120
   const handleHomeScroll = (e) => {
@@ -2104,37 +2090,6 @@ export default function HomeScreen({
   // that's where the promos/transaction group settles when split.
   const insightPanelHeight = 788
   const groupTwoSplitY = (4 + insightPanelHeight + 8) - (GROUP_SPLIT_SEAM_Y + 4)
-  const showingWealth = navActive === 'investment' || pageTransition?.from === 'investment' || pageTransition?.to === 'investment'
-  const homePageX = pageTransition?.to === 'investment' || (navActive === 'investment' && pageTransition?.to !== 'home') ? -448 : 0
-  const wealthPageX = pageTransition?.to === 'home' ? 448 : 0
-
-  const closeMenuToCurrentPage = () => {
-    if (pageTransitionTimerRef.current) window.clearTimeout(pageTransitionTimerRef.current)
-    setMenuOpen(false)
-    pageTransitionTimerRef.current = window.setTimeout(() => {
-      setPageTransition(null)
-      pageTransitionTimerRef.current = null
-    }, 460)
-  }
-
-  const navigateFromMenu = (target) => {
-    if (target === navActive) {
-      closeMenuToCurrentPage()
-      return
-    }
-
-    if (pageTransitionTimerRef.current) window.clearTimeout(pageTransitionTimerRef.current)
-    setPageTransition({ from: navActive, to: target })
-    setNavActive(target)
-    pageTransitionTimerRef.current = window.setTimeout(() => {
-      setMenuOpen(false)
-      pageTransitionTimerRef.current = window.setTimeout(() => {
-        setPageTransition(null)
-        pageTransitionTimerRef.current = null
-      }, 460)
-    }, 320)
-  }
-
   const openOverlay      = () => {
     if (balanceCornerTimerRef.current) window.clearTimeout(balanceCornerTimerRef.current)
     setBalanceSplitActive(true)
@@ -2153,7 +2108,6 @@ export default function HomeScreen({
 
   useEffect(() => () => {
     if (balanceCornerTimerRef.current) window.clearTimeout(balanceCornerTimerRef.current)
-    if (pageTransitionTimerRef.current) window.clearTimeout(pageTransitionTimerRef.current)
   }, [])
 
   useEffect(() => {
@@ -2178,7 +2132,7 @@ export default function HomeScreen({
     if (showTri) {
       onTesterNoteChange({
         title: 'AI',
-        items: ['Visit My Wealth to see check case study.'],
+        items: ['Tap Freeze my Credit card to open the AI chat.', 'Tap Search or Close in the header.'],
       })
       return
     }
@@ -2194,22 +2148,7 @@ export default function HomeScreen({
     if (menuOpen) {
       onTesterNoteChange({
         title: 'Menu',
-        items: ['Tap Home or My Wealth to switch sections.', 'Tap the top compressed area or X dots to close.'],
-      })
-      return
-    }
-
-    if (navActive === 'investment') {
-      if (wealthInvestOpen) {
-        onTesterNoteChange({
-          title: 'Invest Panel',
-          items: ['Tap Close to dismiss the panel.', 'Investment product circles are selectable visual targets.'],
-        })
-        return
-      }
-      onTesterNoteChange({
-        title: 'My Wealth',
-        items: ['Tap My wealth / Explore tabs.', 'Tap the chart arrow to collapse or expand the chart.', 'Drag both of TCB and VIC items into Ask AI to trigger AI chat', 'Tap Buy to open the invest panel.'],
+        items: ['Tap Home to return to the home screen.', 'Tap the top compressed area or X dots to close.'],
       })
       return
     }
@@ -2218,7 +2157,7 @@ export default function HomeScreen({
       title: 'Home',
       items: ['Tap Current Balance to open the insight overlay.', 'Tap Search in the top bar.', 'Tap Ask anything in the bottom bar.', 'Tap the four-dot menu button.'],
     })
-  }, [menuOpen, navActive, onTesterNoteChange, showInsightChat, showOverlay, showSearch, showTri, wealthInvestOpen])
+  }, [menuOpen, onTesterNoteChange, showInsightChat, showOverlay, showSearch, showTri])
 
   return (
     <div ref={phoneFrameRef} className="w-[440px] h-[956px] overflow-hidden relative rounded-[64px] bg-white">
@@ -2229,24 +2168,12 @@ export default function HomeScreen({
         animate={{ y: -bgScrollY }}
         transition={{ type: 'spring', stiffness: 300, damping: 32 }}
       >
-        {navActive === 'home' ? (
-          <div
-            className="absolute inset-0"
-            style={{
-              background: `linear-gradient(180deg, ${mixHex('#a1a1aa', '#9F9FA9', bgScrollY / MAX_BG_SCROLL)} 0%, #ffffff 70%)`,
-            }}
-          />
-        ) : (
-          // My Wealth's own gradient, reused here so the transition (which briefly
-          // hides Wealth's own background while pageTransitioning) shows the same
-          // colors instead of a mismatched dotted pattern image underneath.
-          <div
-            className="absolute inset-0"
-            style={{
-              background: 'linear-gradient(180deg, #D5D4F7 0%, #f5f5f5 49%, #f5f5f5 100%)',
-            }}
-          />
-        )}
+        <div
+          className="absolute inset-0"
+          style={{
+            background: `linear-gradient(180deg, ${mixHex('#a1a1aa', '#9F9FA9', bgScrollY / MAX_BG_SCROLL)} 0%, #ffffff 70%)`,
+          }}
+        />
       </motion.div>
 
       {/* Slideable home content — exits left when search opens */}
@@ -2271,9 +2198,6 @@ export default function HomeScreen({
         <div className="flex-1 flex flex-col min-h-0">
 
           <motion.div
-            initial={false}
-            animate={{ x: homePageX }}
-            transition={{ type: 'spring', stiffness: 300, damping: 32 }}
             onScroll={handleHomeScroll}
             ref={homeScrollRef}
             className="flex-1 flex flex-col gap-1 min-h-0 overflow-y-auto px-1 pt-1 pb-1 [&::-webkit-scrollbar]:hidden"
@@ -2381,37 +2305,21 @@ export default function HomeScreen({
 
       {/* Floating Ask bar — overlays the content with a gradient scrim fading up from the
           solid background, per Figma (footer sits at ~53% down its own gradient height).
-          Hidden while the Wealth screen is showing — it has its own bottom bar, and Home's
-          would otherwise render on top of it (two bottom bars visible at once). */}
+          solid background, per Figma (footer sits at ~53% down its own gradient height). */}
       <motion.div
         initial={false}
-        animate={{
-          opacity: showingWealth ? 0 : 1,
-          y: balanceSplitShown ? 148 : 0,
-        }}
-        transition={{
-          opacity: { duration: 0.18 },
-          y: { type: 'spring', stiffness: 300, damping: 32 },
-        }}
+        animate={{ y: balanceSplitShown ? 148 : 0 }}
+        transition={{ y: { type: 'spring', stiffness: 300, damping: 32 } }}
         className="absolute inset-x-0 bottom-0 z-50 pt-4 px-8 pb-8 rounded-b-[64px]"
         style={{
           background: 'linear-gradient(to bottom, rgba(255,255,255,0) 0%, #ffffff 53%)',
-          pointerEvents: showingWealth || balanceSplitShown ? 'none' : 'auto',
+          pointerEvents: balanceSplitShown ? 'none' : 'auto',
         }}
       >
-        <div className={showingWealth ? 'pointer-events-none' : 'pointer-events-auto'}>
+        <div className="pointer-events-auto">
           <BottomBar
             triMode={showTri}
-            onOpenTri={() => {
-              if (wealthChatChips.length > 0) {
-                // Attached chips only make sense in Wealth's compare flow — jump there
-                // and open its Ask compose screen instead of the generic Tri landing.
-                setNavActive('investment')
-                setWealthOpenAskOnMount(true)
-              } else {
-                setShowTriScreen(true)
-              }
-            }}
+            onOpenTri={() => setShowTriScreen(true)}
             onCloseTri={() => { setShowTriScreen(false); setKeyboardOpen(false) }}
             keyboardOpen={keyboardOpen}
             onOpenKeyboard={() => setKeyboardOpen(true)}
@@ -2420,9 +2328,6 @@ export default function HomeScreen({
             onSend={closeTriFlow}
             menuOpen={menuOpen}
             onOpenMenu={() => setMenuOpen(true)}
-            attachedCount={wealthChatChips.length}
-            onClearAttached={() => setWealthChatChips([])}
-            interactive={!showingWealth}
           />
         </div>
       </motion.div>
@@ -2440,18 +2345,15 @@ export default function HomeScreen({
       <AnimatePresence>
         {menuOpen && (
           <MenuSheet
-            onClose={() => navigateFromMenu('home')}
-            onNavigateWealth={() => navigateFromMenu('investment')}
-            activeNav={navActive}
+            onClose={() => setMenuOpen(false)}
+            activeNav="home"
           />
         )}
       </AnimatePresence>
 
       {/* Menu dots — single element that tracks the pill icon slot when closed
-          and the sheet footer slot when open. Hidden while Wealth is showing —
-          it manages its own menu button, and this tracker would otherwise sit
-          on top of it (a second, doubled-up dots icon). */}
-      {!showTri && !showSearch && !showOverlay && !showInsightChat && !wealthInvestOpen && !wealthAskChatOpen && (!showingWealth || menuOpen) && (
+          and the sheet footer slot when open. */}
+      {!showTri && !showSearch && !showOverlay && !showInsightChat && (
         <motion.button
           aria-label={menuOpen ? 'Close menu' : 'Open menu'}
           onClick={() => setMenuOpen(v => !v)}
@@ -2483,38 +2385,6 @@ export default function HomeScreen({
             insightAdded={insightAdded}
             insightAnimationKey={insightAnimationKey}
           />
-        )}
-      </AnimatePresence>
-
-      {/* Wealth screen */}
-      <AnimatePresence>
-        {showingWealth && (
-          <div
-            className="absolute inset-0 overflow-hidden"
-            style={{ zIndex: (wealthAnalyzeOpen || wealthInvestOpen || wealthAskChatOpen) ? 80 : 20 }}
-          >
-            <WealthScreen
-              onNavigate={(tab) => tab === 'home' ? navigateFromMenu('home') : setNavActive(tab)}
-              embedded={true}
-              onOpenSearch={() => setShowSearch(true)}
-              onAnalyzeOpen={() => setWealthAnalyzeOpen(true)}
-              onAnalyzeClose={() => setWealthAnalyzeOpen(false)}
-              onInvestOpen={() => setWealthInvestOpen(true)}
-              onInvestClose={() => setWealthInvestOpen(false)}
-              onAskChatOpen={() => setWealthAskChatOpen(true)}
-              onAskChatClose={() => setWealthAskChatOpen(false)}
-              openAskChatOnMount={wealthOpenAskOnMount}
-              onOpenAskChatOnMountConsumed={() => setWealthOpenAskOnMount(false)}
-              menuOpen={menuOpen}
-              onOpenMenu={() => setMenuOpen(true)}
-              onTesterNoteChange={onTesterNoteChange}
-              pageContentX={wealthPageX}
-              pageContentInitialX={pageTransition?.to === 'investment' ? 448 : 0}
-              pageTransitioning={!!pageTransition}
-              chatChips={wealthChatChips}
-              setChatChips={setWealthChatChips}
-            />
-          </div>
         )}
       </AnimatePresence>
 

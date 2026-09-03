@@ -6,7 +6,6 @@ import dynamic from 'next/dynamic'
 
 const HomeScreen   = dynamic(() => import('@/app/screens/home/page'),   { ssr: false })
 const SearchScreen = dynamic(() => import('@/app/screens/search/page'), { ssr: false })
-const WealthScreen = dynamic(() => import('@/app/screens/wealth/page'), { ssr: false })
 
 // Phone native size (HomeScreen renders at 440×956)
 const PW = 440
@@ -36,18 +35,6 @@ const SCREENS = [
     label: 'Search',
     Component: SearchScreen,
     props: {},
-  },
-  {
-    id: 'home-invest',
-    label: 'Home — Investment',
-    Component: HomeScreen,
-    props: { defaultTab: 'investment' },
-  },
-  {
-    id: 'wealth-explore',
-    label: 'Wealth — Explore',
-    Component: WealthScreen,
-    props: { defaultTab: 'explore' },
   },
 ]
 
