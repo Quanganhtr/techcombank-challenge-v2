@@ -120,7 +120,7 @@ function StatusBar({  }) {
 
 /* ─── Home sub-components ───────────────────────────────────────────── */
 
-function TopNav({ onOpenSearch }) {
+function TopNav() {
   const btnCls = `flex items-center justify-center px-5 py-2 rounded-full border border-neutral-300`
   const iconCls = 'text-[#111111]'
   return (
@@ -132,7 +132,7 @@ function TopNav({ onOpenSearch }) {
         <button className={btnCls}>
           <Icon name="notifications" size={24} className={iconCls} />
         </button>
-        <button onClick={onOpenSearch} className={btnCls}>
+        <button className={btnCls}>
           <Icon name="search" size={24} className={iconCls} />
         </button>
       </div>
@@ -1289,7 +1289,7 @@ const TRI_ENTRY_SUGGESTIONS = [
   { id: 3, rotate: -8, icon: asset('/icons-home/tri-suggestion-freeze.png'), iconBg: '#fff4cc', label: 'Freeze my Credit card',                       message: 'Freeze my card' },
 ]
 
-function TriScreen({ onClose, onOpenSearch, onOpenChat }) {
+function TriScreen({ onClose, onOpenChat }) {
   return (
     <motion.div
       initial={{ x: 448 }} animate={{ x: 0 }} exit={{ x: 448 }}
@@ -1327,7 +1327,7 @@ function TriScreen({ onClose, onOpenSearch, onOpenChat }) {
               <Icon name="history" size={24} className="text-[#111111]" />
             </button>
             <div className="flex items-center gap-1">
-              <button onClick={onOpenSearch} className={`rounded-full px-5 py-2 flex items-center justify-center border ${
+              <button className={`rounded-full px-5 py-2 flex items-center justify-center border ${
                 'border-neutral-300'
               }`}>
                 <Icon name="search" size={24} className="text-[#111111]" />
@@ -1407,7 +1407,7 @@ const INSIGHT_SCRIPT = {
   reply2: { text: 'I’ve added a new Coffee Spending insight.', view: true },
 }
 
-function InsightChatScreen({ onClose, onOpenSearch, onViewInsight }) {
+function InsightChatScreen({ onClose, onViewInsight }) {
   const [messages, setMessages] = useState([])
   const [inputText, setInputText] = useState(INSIGHT_SCRIPT.draft1)
   const [thinking, setThinking] = useState(false)
@@ -1470,7 +1470,7 @@ function InsightChatScreen({ onClose, onOpenSearch, onViewInsight }) {
               <Icon name="history" size={24} className="text-[#111111]" />
             </button>
             <div className="flex items-center gap-1">
-              <button onClick={onOpenSearch} className={`rounded-full px-5 py-2 flex items-center justify-center border ${
+              <button className={`rounded-full px-5 py-2 flex items-center justify-center border ${
                 'border-neutral-300'
               }`}>
                 <Icon name="search" size={24} className="text-[#111111]" />
@@ -1644,53 +1644,7 @@ function KeyboardMock({ delay = 0, noAnim = false, zIndex = 25 }) {
   )
 }
 
-/* ─── Search Screen ─────────────────────────────────────────────────── */
-
-const RECENT_CARDS = [
-  { id: 1, label: 'Shopee spending this month', icon: 'tri'     },
-  { id: 2, label: 'Auto Savings',               icon: 'savings' },
-  { id: 3, label: 'Can I afford an iPhone 17?', icon: 'tri'     },
-]
-
-const SUGGESTED_STOCKS = [
-  { id: 1, icon: 'candlestick_chart', ticker: 'TCB',  subtitle: 'Equities',          price: '34.56', change: '+2.24%'  },
-  { id: 2, icon: 'candlestick_chart', ticker: 'VIC',  subtitle: 'Equities',          price: '220',   change: '+2.24%'  },
-  { id: 3, icon: 'bar_chart',         ticker: 'TCBF', subtitle: 'Techcom Bond Fund', price: null,    change: '+20.49%' },
-]
-
-const FEATURE_RESULTS = [
-  { id: 1, icon: 'credit_card_off', label: 'Cardless withdrawal' },
-  { id: 2, icon: 'credit_card',     label: 'Credit card application' },
-]
-
-const TRI_SUGGESTIONS = [
-  { id: 1, label: 'Freeze my card ...',        message: 'Freeze my card' },
-  { id: 2, label: 'Which card suits me best?', message: 'Which card suits me best?' },
-  { id: 3, label: 'Estimate my credit limit',  message: 'Estimate my credit limit' },
-]
-
-function HighlightMatch({ text, query }) {
-  if (!query) return <span>{text}</span>
-  const idx = text.toLowerCase().indexOf(query.toLowerCase())
-  if (idx === -1) return <span>{text}</span>
-  return (
-    <>
-      {text.slice(0, idx)}
-      <span className="text-info">{text.slice(idx, idx + query.length)}</span>
-      {text.slice(idx + query.length)}
-    </>
-  )
-}
-
-function SearchResultDivider() {
-  return (
-    <div className="pl-[75px] pr-4 w-full">
-      <div className="bg-[#737373] h-px opacity-10 rounded-full w-full" />
-    </div>
-  )
-}
-
-function DarkKeyboardMock({  }) {
+function DarkKeyboardMock() {
   const rows = [
     ['q','w','e','r','t','y','u','i','o','p'],
     ['a','s','d','f','g','h','j','k','l'],
@@ -1744,274 +1698,6 @@ function DarkKeyboardMock({  }) {
   )
 }
 
-export function SearchScreen({ onClose, onOpenChat, autoType = false }) {
-  const SLIDE = { type: 'spring', stiffness: 300, damping: 32 }
-  const TARGET = 'Card'
-  const [typing, setTyping] = useState(false)
-  const [typedText, setTypedText] = useState('')
-
-  // Type "Card" letter by letter
-  const startTyping = () => {
-    if (typing) return
-    setTyping(true)
-    let i = 0
-    const id = setInterval(() => {
-      i++
-      setTypedText(TARGET.slice(0, i))
-      if (i >= TARGET.length) clearInterval(id)
-    }, 120)
-  }
-
-  const clearTyping = () => { setTyping(false); setTypedText('') }
-
-  useEffect(() => {
-    if (!autoType) return
-    const t = setTimeout(startTyping, 800)
-    return () => clearTimeout(t)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [autoType])
-
-  const iconPillBg = 'bg-[#f5f5f5]'
-  const iconPillFg = 'text-[#111111]'
-  const primaryText = 'text-[#111111]'
-
-  return (
-    <motion.div
-      initial={{ x: 448 }} animate={{ x: 0 }} exit={{ x: 448 }}
-      transition={SLIDE}
-      className="absolute inset-0 z-80 rounded-[64px] overflow-hidden flex flex-col bg-white"
-    >
-      {/* Background — the Home gradient */}
-      {<div
-          className="absolute inset-0 rounded-[64px]"
-          style={{ background: 'linear-gradient(180deg, #a1a1aa 0%, #ffffff 70%)' }}
-        />}
-
-      {/* Status bar */}
-      <div className="absolute top-0 left-0 right-0 z-70">
-        <StatusBar />
-      </div>
-
-      {/* Layout column */}
-      <div className="absolute inset-0 flex flex-col gap-2 px-1 pt-1 pb-1 pb-0">
-
-        {/* Main content card */}
-        <div className={`relative flex-1 border rounded-t-[64px] rounded-b-[48px] overflow-hidden flex flex-col min-h-0 ${
-          'border-[#e5e5e5] shadow-[0_8px_24px_rgba(0,0,0,0.08)]'
-        }`}
-        style={{
-          background: 'linear-gradient(180deg, rgba(255,255,255,0) 0%, #ffffff 40%)',
-        }}
-        >
-
-          {/* Header */}
-          <div className="flex items-center justify-between px-4 pb-3 pt-16 shrink-0 w-full">
-            <p className={`text-[24px] font-bold leading-8 tracking-[0.48px] ${primaryText}`}>
-              {typing ? <>Result of &ldquo;{typedText}&rdquo;</> : 'Search'}
-            </p>
-            <button
-              onClick={onClose}
-              className="rounded-full px-5 py-2 flex items-center justify-center border shrink-0 border-neutral-300"
-            >
-              <Icon name="close" size={24} className={primaryText} />
-            </button>
-          </div>
-
-          <AnimatePresence mode="wait" initial={false}>
-            {typing ? (
-              /* ─── Results of "Card" ─── */
-              <motion.div
-                key="results"
-                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                transition={{ duration: 0.18 }}
-                className="flex-1 flex flex-col overflow-y-auto [&::-webkit-scrollbar]:hidden min-h-0"
-              >
-                {/* Features label */}
-                <div className="flex items-center p-4 shrink-0 text-[14px] font-medium leading-5">
-                  <span className="text-[#737373]">Features</span>
-                </div>
-
-                {/* Feature results */}
-                {FEATURE_RESULTS.map((item) => (
-                  <div key={item.id}>
-                    <div className="flex gap-4 items-center px-4 py-3">
-                      <div className={`p-2.5 rounded-full flex items-center justify-center shrink-0 ${iconPillBg}`}>
-                        <Icon name={item.icon} size={24} className={iconPillFg} />
-                      </div>
-                      <p className={`flex-1 text-[14px] font-medium leading-5 min-w-0 ${primaryText}`}>
-                        <HighlightMatch text={item.label} query={typedText} />
-                      </p>
-                      <Icon name="chevron_right" size={20} className="text-[#737373] shrink-0" />
-                    </div>
-                    <SearchResultDivider />
-                  </div>
-                ))}
-
-                {/* Talk to AI header */}
-                <div className="flex items-center justify-between px-4 pt-4 pb-2 shrink-0 text-[14px] font-medium leading-5">
-                  <span className="text-[#737373]">Talk to AI</span>
-                  <span className={primaryText}>Open conversation</span>
-                </div>
-
-                {/* AI suggestions */}
-                {TRI_SUGGESTIONS.map((item, i) => (
-                  <div key={item.id}>
-                    <button
-                      onClick={() => onOpenChat?.(item.message)}
-                      className="flex gap-4 items-center px-4 py-3 w-full text-left"
-                    >
-                      <div className="p-2.5 rounded-full flex items-center justify-center shrink-0 bg-cinnabar-200">
-                        <Image src={asset("/ai.png")} alt="" width={24} height={24} />
-                      </div>
-                      <span className={`flex-1 text-[14px] font-medium leading-5 ${primaryText}`}>{item.label}</span>
-                      <Icon name="chevron_right" size={20} className="text-[#737373] shrink-0" />
-                    </button>
-                    {i < TRI_SUGGESTIONS.length - 1 && <SearchResultDivider />}
-                  </div>
-                ))}
-              </motion.div>
-            ) : (
-              /* ─── Default: recent + suggestions ─── */
-              <motion.div
-                key="default"
-                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                transition={{ duration: 0.18 }}
-                className="flex-1 flex flex-col overflow-y-auto [&::-webkit-scrollbar]:hidden min-h-0"
-              >
-                {/* Recent header */}
-                <div className="flex items-center justify-between p-4 shrink-0 text-[14px] font-medium leading-5">
-                  <div className="flex items-center gap-2">
-                    <span className="text-[#737373]">Recent</span>
-                    <span className={primaryText}>Clear</span>
-                  </div>
-                  <span className="text-info">View All</span>
-                </div>
-
-                {/* Recent cards — horizontal row */}
-                <div className="flex gap-2 items-stretch px-4 overflow-x-auto [&::-webkit-scrollbar]:hidden shrink-0">
-                  {RECENT_CARDS.map(card => (
-                    <div key={card.id} className="shrink-0 w-[156px] rounded-[32px] px-4 py-4 flex flex-col gap-1 bg-[#f5f5f5]">
-                      <div className="flex items-start justify-between w-full">
-                        <div className={`p-2.5 rounded-full flex items-center justify-center ${
-                          card.icon === 'tri' ? 'bg-cinnabar-200' : card.icon === 'savings' ? 'bg-lime-100' : iconPillBg
-                        }`}>
-                          {card.icon === 'tri' ? (
-                            <Image src={asset("/ai.png")} alt="" width={24} height={24} />
-                          ) : card.icon === 'savings' ? (
-                            <Image src={asset("/invest-savings.png")} alt="" width={24} height={24} />
-                          ) : (
-                            <Icon name={card.icon} size={24} className={iconPillFg} />
-                          )}
-                        </div>
-                        <button className="mt-0.5">
-                          <Icon name="close" size={20} className="text-[#737373]" />
-                        </button>
-                      </div>
-                      <p className="text-[14px] font-medium leading-5 mt-auto text-[#111111]">{card.label}</p>
-                    </div>
-                  ))}
-                </div>
-
-                {/* AI suggestion label */}
-                <div className="flex items-center gap-1 px-4 pt-4 pb-2 shrink-0 text-[14px] font-medium leading-5 whitespace-nowrap">
-                  <span className="text-[#737373]">Because you recently asked about</span>
-                  <span className={primaryText}>&ldquo;Conservative&rdquo;</span>
-                </div>
-
-                {/* Stock list */}
-                {SUGGESTED_STOCKS.map((stock, i) => (
-                  <div key={stock.id}>
-                    <div className="flex gap-4 items-center px-4 py-3">
-                      <div className={`p-2.5 rounded-full flex items-center justify-center shrink-0 ${
-                        stock.icon === 'candlestick_chart' ? 'bg-[#d5d4f7]' : stock.icon === 'bar_chart' ? 'bg-[#fff4cc]' : iconPillBg
-                      }`}>
-                        {stock.icon === 'candlestick_chart' ? (
-                          <Image src={asset("/invest-equities.png")} alt="" width={24} height={24} />
-                        ) : stock.icon === 'bar_chart' ? (
-                          <Image src={asset("/invest-funds.png")} alt="" width={24} height={24} />
-                        ) : (
-                          <Icon name={stock.icon} size={24} className={iconPillFg} />
-                        )}
-                      </div>
-                      <div className="flex-1 flex flex-col gap-1 min-w-0">
-                        <p className={`text-[14px] font-medium leading-5 ${primaryText}`}>{stock.ticker}</p>
-                        <p className="text-[12px] font-medium text-[#737373] leading-4">{stock.subtitle}</p>
-                      </div>
-                      <div className="flex flex-col items-end gap-2 shrink-0 whitespace-nowrap">
-                        {stock.price
-                          ? <>
-                              <p className={`text-[14px] font-medium leading-5 tabular-nums ${primaryText}`}>{stock.price}</p>
-                              <p className="text-[12px] font-medium leading-4 tabular-nums text-success">{stock.change}</p>
-                            </>
-                          : <p className="text-[14px] font-medium leading-5 tabular-nums text-success">{stock.change}</p>
-                        }
-                      </div>
-                    </div>
-                    {i < SUGGESTED_STOCKS.length - 1 && <SearchResultDivider />}
-                  </div>
-                ))}
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          {/* Bottom fade */}
-          <div className={`absolute bottom-0 left-0 right-0 h-14 pointer-events-none rounded-b-[48px] ${
-            'bg-linear-to-t from-white to-transparent'
-          }`} />
-        </div>
-
-        {/* Footer + keyboard — slide up after screen lands */}
-        <motion.div
-          initial={{ y: 480 }} animate={{ y: 0 }}
-          transition={{ ...SLIDE, delay: 0.28 }}
-          className="flex flex-col gap-2 shrink-0"
-        >
-          {/* Search field */}
-          <div className="flex gap-2 items-center px-3 w-full">
-            <div
-              role="button"
-              onClick={startTyping}
-              className={`flex-1 backdrop-blur-sm border rounded-[60px] pl-6 pr-4 py-4 flex items-center gap-4 min-w-0 cursor-text ${
-                'bg-white border-[#d4d4d4]'
-              }`}
-            >
-              <div className="flex-1 flex items-center gap-1 min-w-0">
-                {typing ? (
-                  <>
-                    <span className="text-[16px] leading-6 whitespace-nowrap text-[#111111]">{typedText}</span>
-                    <BlinkingCursor />
-                  </>
-                ) : (
-                  <>
-                    <BlinkingCursor />
-                    <span className="flex-1 text-[16px] text-[#a1a1a1] leading-6">Search</span>
-                  </>
-                )}
-              </div>
-              <AnimatePresence>
-                {typing && (
-                  <motion.button
-                    initial={{ opacity: 0, scale: 0.7 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.7 }}
-                    transition={{ duration: 0.15 }}
-                    onClick={e => { e.stopPropagation(); clearTyping() }}
-                    className="p-1 rounded-full flex items-center justify-center shrink-0 bg-[#404040]"
-                  >
-                    <Icon name="close" size={16} className="text-white" />
-                  </motion.button>
-                )}
-              </AnimatePresence>
-              <Icon name="search" size={24} className="shrink-0 text-[#111111]" />
-            </div>
-          </div>
-
-          {/* Dark keyboard — in flow */}
-          <DarkKeyboardMock />
-        </motion.div>
-      </div>
-    </motion.div>
-  )
-}
-
 /* ─── Page ──────────────────────────────────────────────────────────── */
 
 export default function HomeScreen({
@@ -2027,7 +1713,6 @@ export default function HomeScreen({
   const [internalOverlay,     setInternalOverlay]     = useState(false)
   const [showTriScreen,       setShowTriScreen]       = useState(false)
   const [keyboardOpen,        setKeyboardOpen]        = useState(false)
-  const [showSearch,          setShowSearch]          = useState(false)
   const [menuOpen,            setMenuOpen]            = useState(false)
   const [showInsightChat,     setShowInsightChat]     = useState(false)
   const [insightAdded,        setInsightAdded]        = useState(false)
@@ -2073,7 +1758,6 @@ export default function HomeScreen({
   // Suggestion taps / Ask AI send used to open a scripted demo chat (TriChatScreen);
   // that screen has been removed, so these now just close back to the current screen.
   const closeTriFlow = () => {
-    setShowSearch(false)
     setShowTriScreen(false)
     setKeyboardOpen(false)
   }
@@ -2113,14 +1797,6 @@ export default function HomeScreen({
   useEffect(() => {
     if (!onTesterNoteChange) return
 
-    if (showSearch) {
-      onTesterNoteChange({
-        title: 'Search',
-        items: ['Tap the search field to type “Card”.', 'Tap Close to return home.'],
-      })
-      return
-    }
-
     if (showInsightChat) {
       onTesterNoteChange({
         title: 'AI Chat',
@@ -2157,7 +1833,7 @@ export default function HomeScreen({
       title: 'Home',
       items: ['Tap Current Balance to open the insight overlay.', 'Tap Search in the top bar.', 'Tap Ask anything in the bottom bar.', 'Tap the four-dot menu button.'],
     })
-  }, [menuOpen, onTesterNoteChange, showInsightChat, showOverlay, showSearch, showTri])
+  }, [menuOpen, onTesterNoteChange, showInsightChat, showOverlay, showTri])
 
   return (
     <div ref={phoneFrameRef} className="w-[440px] h-[956px] overflow-hidden relative rounded-[64px] bg-white">
@@ -2179,7 +1855,7 @@ export default function HomeScreen({
       {/* Slideable home content — exits left when search opens */}
       <motion.div
         className="absolute inset-0"
-        animate={{ x: showSearch || showTri || showInsightChat ? -448 : 0 }}
+        animate={{ x: showTri || showInsightChat ? -448 : 0 }}
         transition={{ type: 'spring', stiffness: 300, damping: 32 }}
       >
 
@@ -2233,7 +1909,7 @@ export default function HomeScreen({
                 'border-[#f0f0f0]'
               }`}
             >
-              <TopNav onOpenSearch={() => setShowSearch(true)} />
+              <TopNav />
             </div>
             <div
               className={`shrink-0 border border-t-0 border-b-0 flex flex-col ${
@@ -2353,7 +2029,7 @@ export default function HomeScreen({
 
       {/* Menu dots — single element that tracks the pill icon slot when closed
           and the sheet footer slot when open. */}
-      {!showTri && !showSearch && !showOverlay && !showInsightChat && (
+      {!showTri && !showOverlay && !showInsightChat && (
         <motion.button
           aria-label={menuOpen ? 'Close menu' : 'Open menu'}
           onClick={() => setMenuOpen(v => !v)}
@@ -2395,15 +2071,9 @@ export default function HomeScreen({
         {showTri && (
           <TriScreen
             onClose={() => { setShowTriScreen(false); extTriClose?.() }}
-            onOpenSearch={() => setShowSearch(true)}
             onOpenChat={closeTriFlow}
           />
         )}
-      </AnimatePresence>
-
-      {/* Search screen */}
-      <AnimatePresence>
-        {showSearch && <SearchScreen onClose={() => setShowSearch(false)} onOpenChat={closeTriFlow} />}
       </AnimatePresence>
 
       {/* Insight chat screen — "Add new insight" scripted conversation */}
@@ -2411,7 +2081,6 @@ export default function HomeScreen({
         {showInsightChat && (
           <InsightChatScreen
             onClose={() => setShowInsightChat(false)}
-            onOpenSearch={() => setShowSearch(true)}
             onViewInsight={() => {
               setInsightAdded(true)
               setInsightAnimationKey(k => k + 1)

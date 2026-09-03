@@ -5,7 +5,6 @@ import { motion, useAnimationFrame } from 'framer-motion'
 import dynamic from 'next/dynamic'
 
 const HomeScreen   = dynamic(() => import('@/app/screens/home/page'),   { ssr: false })
-const SearchScreen = dynamic(() => import('@/app/screens/search/page'), { ssr: false })
 
 // Phone native size (HomeScreen renders at 440×956)
 const PW = 440
@@ -29,12 +28,6 @@ const SCREENS = [
     label: 'Home — Balance',
     Component: HomeScreen,
     props: { overlayOpen: true },
-  },
-  {
-    id: 'search',
-    label: 'Search',
-    Component: SearchScreen,
-    props: {},
   },
 ]
 
