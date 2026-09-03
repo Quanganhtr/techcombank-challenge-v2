@@ -131,11 +131,11 @@ function TypewriterInputText({ text }) {
   )
 }
 
-function StatusBar({ dark = false }) {
-  const imgStyle = dark ? { filter: 'invert(1)' } : {}
+function StatusBar({  }) {
+  const imgStyle = { filter: 'invert(1)' }
   return (
     <div className="flex items-center justify-between px-14 pt-6 pb-1 shrink-0">
-      <span className={`text-[15px] font-semibold ${dark ? 'text-content-primary' : 'text-white'}`}>9:41</span>
+      <span className="text-[15px] font-semibold text-content-primary">9:41</span>
       <div className="flex items-center gap-1">
         <Image src={asset("/cellular.svg")} alt="" width={16} height={16} style={imgStyle} />
         <Image src={asset("/wifi.svg")}     alt="" width={16} height={16} style={imgStyle} />
@@ -183,47 +183,47 @@ function AssetDivider() {
 
 /* ── Explore tab sub-components ─────────────────────────────────────── */
 
-function YieldBadge({ value, up = true, light = false }) {
+function YieldBadge({ value, up = true }) {
   return (
     <div className={`flex items-center justify-center gap-1 pl-1 pr-3 py-1 rounded-full border shrink-0 ${
-      up ? (light ? 'border-[#00a63e]' : 'border-[#05df72]') : 'border-[#e7000b]'
+      up ? ('border-[#00a63e]') : 'border-[#e7000b]'
     }`}>
-      <span className="material-symbols-outlined leading-none select-none text-[20px]" style={{ transform: up ? 'rotate(180deg)' : 'none', color: up ? (light ? '#00a63e' : '#05df72') : '#e7000b' }}>
+      <span className="material-symbols-outlined leading-none select-none text-[20px]" style={{ transform: up ? 'rotate(180deg)' : 'none', color: up ? ('#00a63e') : '#e7000b' }}>
         arrow_drop_down
       </span>
-      <span className={`text-[14px] font-medium leading-5 tracking-[0.28px] whitespace-nowrap ${up ? (light ? 'text-success' : 'text-[#05df72]') : 'text-danger'}`}>{value}</span>
+      <span className={`text-[14px] font-medium leading-5 tracking-[0.28px] whitespace-nowrap ${up ? ('text-success') : 'text-danger'}`}>{value}</span>
     </div>
   )
 }
 
-function SectionHeader({ title, light = false }) {
+function SectionHeader({ title }) {
   return (
     <div className="flex items-center justify-between pl-5 pr-6 pt-4 pb-2 w-full shrink-0">
-      <p className={`text-[16px] font-semibold leading-6 tracking-[0.32px] ${light ? 'text-[#404040]' : 'text-[#d4d4d4]'}`}>{title}</p>
-      <Icon name="chevron_right" size={24} className={light ? 'text-[#a1a1a1]' : 'text-[#737373]'} />
+      <p className="text-[16px] font-semibold leading-6 tracking-[0.32px] text-[#404040]">{title}</p>
+      <Icon name="chevron_right" size={24} className="text-[#a1a1a1]" />
     </div>
   )
 }
 
-function IndexCard({ name, time, date, value, change, positive, onDragStart, light = false }) {
+function IndexCard({ name, time, date, value, change, positive, onDragStart }) {
   return (
     <div
       onPointerDown={(e) => onDragStart?.(e, { ticker: name, avatar: { type: 'icon', icon: 'trending_up' } })}
-      className={`flex flex-col h-40 w-[156px] shrink-0 items-start justify-between overflow-hidden p-4 rounded-3xl touch-none cursor-grab active:cursor-grabbing ${light ? 'bg-[#f5f5f5]' : 'bg-[#171717]'}`}
+      className="flex flex-col h-40 w-[156px] shrink-0 items-start justify-between overflow-hidden p-4 rounded-3xl touch-none cursor-grab active:cursor-grabbing bg-[#f5f5f5]"
     >
       <div className="flex flex-col gap-1 w-full">
-        <p className={`text-[14px] font-medium leading-5 ${light ? 'text-[#111111]' : 'text-[#fafafa]'}`}>{name}</p>
+        <p className="text-[14px] font-medium leading-5 text-[#111111]">{name}</p>
         <div className="flex gap-1 text-[12px] font-medium text-[#737373] leading-4">
           <span>{time}</span><span>·</span><span>{date}</span>
         </div>
       </div>
       <div className="flex items-end justify-between w-full">
         <div className="flex flex-col gap-1">
-          <p className={`text-[24px] font-bold leading-8 tracking-[0.48px] whitespace-nowrap ${light ? 'text-[#111111]' : 'text-[#fafafa]'}`}>{value}</p>
-          <p className={`text-[14px] font-medium leading-5 ${positive ? (light ? 'text-success' : 'text-green-400') : 'text-danger'}`}>{change}</p>
+          <p className="text-[24px] font-bold leading-8 tracking-[0.48px] whitespace-nowrap text-[#111111]">{value}</p>
+          <p className={`text-[14px] font-medium leading-5 ${positive ? ('text-success') : 'text-danger'}`}>{change}</p>
         </div>
         <span className="shrink-0">
-          <Icon name="drag_indicator" size={16} className={light ? "text-[#d4d4d4]" : "text-[#262626]"} />
+          <Icon name="drag_indicator" size={16} className="text-[#d4d4d4]" />
         </span>
       </div>
     </div>
@@ -265,7 +265,7 @@ const EXPLORE_FILTERS = [
   { id: 'global',      label: 'Global stock'  },
 ]
 
-function ExploreContent({ onDragStart, light = false }) {
+function ExploreContent({ onDragStart }) {
   const [activeFilter, setActiveFilter] = useState('equities')
   const scrollRef = useRef(null)
   const chipsRef = useRef(null)
@@ -352,14 +352,14 @@ function ExploreContent({ onDragStart, light = false }) {
               onClick={() => handleChipClick(f.id)}
               className={`flex items-center px-4 py-2 rounded-full shrink-0 ${
                 activeFilter === f.id
-                  ? (light ? 'bg-[#111111]' : 'bg-[#fafafa]')
-                  : (light ? 'bg-white/60' : 'bg-[rgba(17,17,17,0.6)]')
+                  ? ('bg-[#111111]')
+                  : ('bg-white/60')
               }`}
             >
               <span className={`text-[14px] font-medium leading-5 whitespace-nowrap ${
                 activeFilter === f.id
-                  ? (light ? 'text-white' : 'text-[#111111]')
-                  : (light ? 'text-[#111111]' : 'text-[#fafafa]')
+                  ? ('text-white')
+                  : ('text-[#111111]')
               }`}>{f.label}</span>
             </button>
           ))}
@@ -379,7 +379,7 @@ function ExploreContent({ onDragStart, light = false }) {
 
           {/* Top equities */}
           <div ref={sectionRefs.equities} />
-          <SectionHeader title="Top equities" light={light} />
+          <SectionHeader title="Top equities" />
           {EQUITIES.map((eq, i) => (
             <div key={eq.ticker}>
               <div
@@ -392,17 +392,17 @@ function ExploreContent({ onDragStart, light = false }) {
                       <Image src={eq.logo} alt={eq.ticker} fill className="object-cover" />
                     </div>
                     <div className="flex flex-col gap-1 min-w-0 flex-1 pr-10">
-                      <p className={`text-[14px] font-medium leading-5 ${light ? 'text-[#111111]' : 'text-[#fafafa]'}`}>{eq.ticker}</p>
+                      <p className="text-[14px] font-medium leading-5 text-[#111111]">{eq.ticker}</p>
                       <p className="text-[12px] font-medium text-[#737373] leading-4 truncate">{eq.name}</p>
                     </div>
                   </div>
                   <div className="flex flex-col gap-1 items-end text-right shrink-0">
-                    <p className={`text-[14px] font-semibold leading-6 font-mono tabular-nums ${light ? 'text-[#111111]' : 'text-[#d4d4d4]'}`}>{eq.price}</p>
-                    <p className={`text-[12px] font-medium leading-4 ${light ? 'text-success' : 'text-green-400'}`}>{eq.change}</p>
+                    <p className="text-[14px] font-semibold leading-6 font-mono tabular-nums text-[#111111]">{eq.price}</p>
+                    <p className="text-[12px] font-medium leading-4 text-success">{eq.change}</p>
                   </div>
                 </div>
                 <span className="shrink-0">
-                  <Icon name="drag_indicator" size={16} className={light ? "text-[#d4d4d4]" : "text-[#262626]"} />
+                  <Icon name="drag_indicator" size={16} className="text-[#d4d4d4]" />
                 </span>
               </div>
               {i < EQUITIES.length - 1 && <ExploreDivider />}
@@ -411,7 +411,7 @@ function ExploreContent({ onDragStart, light = false }) {
 
           {/* Top bonds */}
           <div ref={sectionRefs.bonds} />
-          <SectionHeader title="Top bonds" light={light} />
+          <SectionHeader title="Top bonds" />
           {EXPLORE_BONDS.map((bond, i) => (
             <div key={bond.id}>
               <div
@@ -424,14 +424,14 @@ function ExploreContent({ onDragStart, light = false }) {
                       <Image src={asset("/invest-bonds.png")} alt="" width={20} height={20} />
                     </div>
                     <div className="flex flex-col gap-1 min-w-0">
-                      <p className={`text-[14px] font-medium leading-5 ${light ? 'text-[#111111]' : 'text-[#fafafa]'}`}>{bond.ticker}</p>
+                      <p className="text-[14px] font-medium leading-5 text-[#111111]">{bond.ticker}</p>
                       <p className="text-[12px] font-medium text-[#737373] leading-4">{bond.maturity}</p>
                     </div>
                   </div>
-                  <YieldBadge value={bond.yield} up={true} light={light} />
+                  <YieldBadge value={bond.yield} up={true} />
                 </div>
                 <span className="shrink-0">
-                  <Icon name="drag_indicator" size={16} className={light ? "text-[#d4d4d4]" : "text-[#262626]"} />
+                  <Icon name="drag_indicator" size={16} className="text-[#d4d4d4]" />
                 </span>
               </div>
               {i < EXPLORE_BONDS.length - 1 && <ExploreDivider />}
@@ -440,7 +440,7 @@ function ExploreContent({ onDragStart, light = false }) {
 
           {/* Top fund */}
           <div ref={sectionRefs.fund} />
-          <SectionHeader title="Top fund" light={light} />
+          <SectionHeader title="Top fund" />
           {FUNDS.map((fund, i) => (
             <div key={fund.ticker}>
               <div
@@ -453,14 +453,14 @@ function ExploreContent({ onDragStart, light = false }) {
                       <Image src={fund.logo} alt={fund.ticker} fill className="object-cover" />
                     </div>
                     <div className="flex flex-col gap-1 min-w-0">
-                      <p className={`text-[14px] font-medium leading-5 ${light ? 'text-[#111111]' : 'text-[#fafafa]'}`}>{fund.ticker}</p>
+                      <p className="text-[14px] font-medium leading-5 text-[#111111]">{fund.ticker}</p>
                       <p className="text-[12px] font-medium text-[#737373] leading-4 truncate">{fund.name}</p>
                     </div>
                   </div>
-                  <YieldBadge value={fund.yield} up={true} light={light} />
+                  <YieldBadge value={fund.yield} up={true} />
                 </div>
                 <span className="shrink-0">
-                  <Icon name="drag_indicator" size={16} className={light ? "text-[#d4d4d4]" : "text-[#262626]"} />
+                  <Icon name="drag_indicator" size={16} className="text-[#d4d4d4]" />
                 </span>
               </div>
               {i < FUNDS.length - 1 && <ExploreDivider />}
@@ -469,23 +469,23 @@ function ExploreContent({ onDragStart, light = false }) {
 
           {/* Vietnam stock indices */}
           <div ref={sectionRefs.vietnam} />
-          <SectionHeader title="Vietnam stock indices" light={light} />
+          <SectionHeader title="Vietnam stock indices" />
           <div className="flex gap-2 items-start px-5 py-3 overflow-x-auto [&::-webkit-scrollbar]:hidden">
-            {VIETNAM_INDICES.map(idx => <IndexCard key={idx.name} {...idx} onDragStart={onDragStart} light={light} />)}
+            {VIETNAM_INDICES.map(idx => <IndexCard key={idx.name} {...idx} onDragStart={onDragStart} />)}
           </div>
 
           {/* Commodities */}
           <div ref={sectionRefs.commodities} />
-          <SectionHeader title="Commodities" light={light} />
+          <SectionHeader title="Commodities" />
           <div className="flex gap-2 items-start px-5 py-3 overflow-x-auto [&::-webkit-scrollbar]:hidden">
-            {COMMODITY_INDICES.map(idx => <IndexCard key={idx.name} {...idx} onDragStart={onDragStart} light={light} />)}
+            {COMMODITY_INDICES.map(idx => <IndexCard key={idx.name} {...idx} onDragStart={onDragStart} />)}
           </div>
 
           {/* Global stock indices */}
           <div ref={sectionRefs.global} />
-          <SectionHeader title="Global stock indices" light={light} />
+          <SectionHeader title="Global stock indices" />
           <div className="flex gap-2 items-start px-5 py-3 overflow-x-auto [&::-webkit-scrollbar]:hidden">
-            {GLOBAL_INDICES.map(idx => <IndexCard key={idx.name} {...idx} onDragStart={onDragStart} light={light} />)}
+            {GLOBAL_INDICES.map(idx => <IndexCard key={idx.name} {...idx} onDragStart={onDragStart} />)}
           </div>
         </div>
     </div>
@@ -574,9 +574,9 @@ function BottomNav({ onNavigate }) {
 
 /* ─── Page ──────────────────────────────────────────────────────────── */
 
-function AnalyzeOverlay({ onClose, showCard = true, light = false }) {
-  // Same contrast rule as Home's overlays: light app → dark card.
-  const dark = light
+function AnalyzeOverlay({ onClose, showCard = true }) {
+  // Same contrast rule as Home's overlays: dark card on the light app surface.
+  
 
   return (
     <motion.div
@@ -599,75 +599,75 @@ function AnalyzeOverlay({ onClose, showCard = true, light = false }) {
         animate={{ y: 0 }}
         exit={{ y: '100%' }}
         transition={{ type: 'spring', stiffness: 320, damping: 32 }}
-        className={`rounded-4xl p-4 flex flex-col gap-4 w-full ${dark ? 'bg-[#111111]' : 'bg-surface'}`}
+        className="rounded-4xl p-4 flex flex-col gap-4 w-full bg-[#111111]"
         onClick={e => e.stopPropagation()}
       >
         {/* Header */}
         <div className="flex items-center justify-between shrink-0">
-          <p className={`text-[24px] font-semibold leading-8 ${dark ? 'text-white' : 'text-content-primary'}`}>Analyze</p>
+          <p className="text-[24px] font-semibold leading-8 text-white">Analyze</p>
           <button
             onClick={onClose}
-            className={`size-12 rounded-full flex items-center justify-center shrink-0 ${dark ? 'bg-[#171717]' : 'bg-surface-sunken'}`}
+            className="size-12 rounded-full flex items-center justify-center shrink-0 bg-[#171717]"
           >
-            <Icon name="close" size={24} className={dark ? 'text-white' : 'text-content-primary'} />
+            <Icon name="close" size={24} className="text-white" />
           </button>
         </div>
 
         {/* Health score */}
-        <div className={`rounded-3xl p-4 flex flex-col gap-1 ${dark ? 'bg-[#171717]' : 'bg-[#f0fdf4]'}`}>
-          <p className={`text-[16px] font-medium leading-6 ${dark ? 'text-white' : 'text-content-primary'}`}>Health score</p>
-          <p className={`text-[32px] font-bold leading-10 ${dark ? 'text-green-400' : 'text-success'}`}>32/100</p>
-          <p className={`text-[14px] leading-5 ${dark ? 'text-[#a1a1a1]' : 'text-content-secondary'}`}>Your 4.8% closer to your goal of buying a home. Keep going.</p>
+        <div className="rounded-3xl p-4 flex flex-col gap-1 bg-[#171717]">
+          <p className="text-[16px] font-medium leading-6 text-white">Health score</p>
+          <p className="text-[32px] font-bold leading-10 text-green-400">32/100</p>
+          <p className="text-[14px] leading-5 text-[#a1a1a1]">Your 4.8% closer to your goal of buying a home. Keep going.</p>
         </div>
 
         {/* Trading analytics */}
-        <div className={`rounded-3xl overflow-hidden ${dark ? 'bg-[#171717]' : 'bg-surface-raised'}`}>
+        <div className="rounded-3xl overflow-hidden bg-[#171717]">
           <div className="px-4 pt-4 pb-2">
-            <p className={`text-[14px] font-medium leading-5 ${dark ? 'text-white' : 'text-content-primary'}`}>Trading analytics</p>
+            <p className="text-[14px] font-medium leading-5 text-white">Trading analytics</p>
           </div>
           {/* TCB */}
           <div className="flex gap-4 items-start p-4">
-            <div className={`size-12 rounded-full overflow-hidden shrink-0 relative ${dark ? 'bg-[#262626]' : 'bg-surface-sunken'}`}>
+            <div className="size-12 rounded-full overflow-hidden shrink-0 relative bg-[#262626]">
               <Image src={asset("/tcb-logo.png")} alt="TCB" fill className="object-cover" />
             </div>
             <div className="flex flex-col gap-1 flex-1 min-w-0">
-              <p className={`text-[16px] font-medium leading-6 ${dark ? 'text-white' : 'text-content-primary'}`}>
-                <span className={dark ? 'text-green-400' : 'text-success'}>+8,000,000đ</span>{' in realized PnL'}
+              <p className="text-[16px] font-medium leading-6 text-white">
+                <span className="text-green-400">+8,000,000đ</span>{' in realized PnL'}
               </p>
-              <p className={`text-[14px] leading-5 ${dark ? 'text-[#737373]' : 'text-content-muted'}`}>You started buying on 12 Apr 2024, Average buy price is 28,250đ. You bought 5 times, sold 2 times in total</p>
+              <p className="text-[14px] leading-5 text-[#737373]">You started buying on 12 Apr 2024, Average buy price is 28,250đ. You bought 5 times, sold 2 times in total</p>
             </div>
           </div>
           <AssetDivider />
           {/* VIC */}
           <div className="flex gap-4 items-start p-4">
-            <div className={`size-12 rounded-full overflow-hidden shrink-0 relative ${dark ? 'bg-[#262626]' : 'bg-surface-sunken'}`}>
+            <div className="size-12 rounded-full overflow-hidden shrink-0 relative bg-[#262626]">
               <Image src={asset("/vic-logo.png")} alt="VIC" fill className="object-cover" />
             </div>
             <div className="flex flex-col gap-1 flex-1 min-w-0">
-              <p className={`text-[16px] font-medium leading-6 ${dark ? 'text-white' : 'text-content-primary'}`}>
+              <p className="text-[16px] font-medium leading-6 text-white">
                 <span className="text-danger">-2,000,000đ</span>{' in realized PnL'}
               </p>
-              <p className={`text-[14px] leading-5 ${dark ? 'text-[#737373]' : 'text-content-muted'}`}>You started buying on 12 Apr 2024, Average buy price is 220,000đ. You bought 4 times, sold 1 times in total</p>
+              <p className="text-[14px] leading-5 text-[#737373]">You started buying on 12 Apr 2024, Average buy price is 220,000đ. You bought 4 times, sold 1 times in total</p>
             </div>
           </div>
         </div>
 
         {/* People like you often buy */}
-        <div className={`border rounded-3xl overflow-hidden ${dark ? 'bg-[#171717] border-[#262626]' : 'bg-surface-raised border-border-strong'}`}>
+        <div className="border rounded-3xl overflow-hidden bg-[#171717] border-[#262626]">
           <div className="px-4 pt-4 pb-2">
-            <p className={`text-[14px] font-medium leading-5 ${dark ? 'text-white' : 'text-content-primary'}`}>People like you often buy</p>
+            <p className="text-[14px] font-medium leading-5 text-white">People like you often buy</p>
           </div>
           <div className="flex gap-4 items-center p-4">
-            <div className={`size-12 rounded-full overflow-hidden shrink-0 relative ${dark ? 'bg-white' : 'bg-surface-overlay'}`}>
+            <div className="size-12 rounded-full overflow-hidden shrink-0 relative bg-white">
               <Image src={asset("/msn-logo.png")} alt="MSN" fill className="object-cover" />
             </div>
             <div className="flex flex-col gap-1 flex-1 min-w-0">
-              <div className={`flex items-center justify-between text-[16px] font-medium leading-6 ${dark ? 'text-white' : 'text-content-primary'}`}>
+              <div className="flex items-center justify-between text-[16px] font-medium leading-6 text-white">
                 <span>MSN</span><span className="tabular-nums font-mono">72.80</span>
               </div>
               <div className="flex items-center justify-between text-[14px] leading-5">
-                <span className={`truncate pr-2 ${dark ? 'text-white' : 'text-content-primary'}`}>Masan Group Corporation</span>
-                <span className={`shrink-0 ${dark ? 'text-green-400' : 'text-success'}`}>+0.41%</span>
+                <span className="truncate pr-2 text-white">Masan Group Corporation</span>
+                <span className="shrink-0 text-green-400">+0.41%</span>
               </div>
             </div>
           </div>
@@ -675,14 +675,14 @@ function AnalyzeOverlay({ onClose, showCard = true, light = false }) {
 
         {/* CTA buttons */}
         <div className="flex flex-col gap-2 shrink-0">
-          <button className={`w-full border rounded-full px-4 py-3 ${dark ? 'bg-[#171717] border-[#262626]' : 'bg-surface-raised border-[#1e2939]'}`}>
-            <span className={`text-[14px] font-medium ${dark ? 'text-white' : 'text-content-primary'}`}>Create a new plan</span>
+          <button className="w-full border rounded-full px-4 py-3 bg-[#171717] border-[#262626]">
+            <span className="text-[14px] font-medium text-white">Create a new plan</span>
           </button>
-          <button className={`w-full rounded-full px-4 py-3 flex items-center justify-center gap-1 ${dark ? 'bg-white' : 'bg-surface-overlay'}`}>
+          <button className="w-full rounded-full px-4 py-3 flex items-center justify-center gap-1 bg-white">
             <div className="size-5 relative overflow-hidden shrink-0">
               <Image src={asset("/ai.png")} alt="" fill className="object-contain" />
             </div>
-            <span className={`text-[14px] font-medium ${dark ? 'text-[#111111]' : 'text-content-inverse'}`}>Ask AI</span>
+            <span className="text-[14px] font-medium text-[#111111]">Ask AI</span>
           </button>
         </div>
       </motion.div>
@@ -692,7 +692,7 @@ function AnalyzeOverlay({ onClose, showCard = true, light = false }) {
 }
 
 /* ─── Dark keyboard mock — shared visual for expanded compose screens ──── */
-function DarkKeyboardMock({ light = false }) {
+function DarkKeyboardMock({  }) {
   const rows = [
     ['q','w','e','r','t','y','u','i','o','p'],
     ['a','s','d','f','g','h','j','k','l'],
@@ -700,18 +700,18 @@ function DarkKeyboardMock({ light = false }) {
   ]
   const DK = ({ label, className = '' }) => (
     <button className={`h-11 rounded-[10px] flex items-center justify-center text-[17px] ${
-      light ? 'bg-white text-black shadow-[0_1px_0_rgba(0,0,0,0.25)]' : 'bg-[#3a3a3c] text-white shadow-[0_1px_0_rgba(0,0,0,0.5)]'
+      'bg-white text-black shadow-[0_1px_0_rgba(0,0,0,0.25)]'
     } ${className}`}>
       {label}
     </button>
   )
   return (
     <div className="w-full shrink-0">
-      <div className={`rounded-t-4xl rounded-b-[60px] ${light ? 'bg-[#d1d3d9]' : 'bg-[#1c1c1e] border border-neutral-900'}`}>
-        <div className={`flex items-center border-b py-2 ${light ? 'border-[#b9bcc3]' : 'border-[#2c2c2e]'}`}>
+      <div className="rounded-t-4xl rounded-b-[60px] bg-[#d1d3d9]">
+        <div className="flex items-center border-b py-2 border-[#b9bcc3]">
           {['"The"', 'the', 'to'].map((s, i) => (
-            <div key={s} className={`flex-1 flex items-center justify-center py-1 ${i < 2 ? (light ? 'border-r border-[#b9bcc3]' : 'border-r border-[#2c2c2e]') : ''}`}>
-              <span className={`text-[15px] ${light ? 'text-black' : 'text-white'}`}>{s}</span>
+            <div key={s} className={`flex-1 flex items-center justify-center py-1 ${i < 2 ? ('border-r border-[#b9bcc3]') : ''}`}>
+              <span className="text-[15px] text-black">{s}</span>
             </div>
           ))}
         </div>
@@ -723,14 +723,14 @@ function DarkKeyboardMock({ light = false }) {
             {rows[1].map(k => <DK key={k} label={k} className="w-9.25" />)}
           </div>
           <div className="flex justify-center gap-1.5">
-            <DK label="⇧" className={`w-11 ${light ? 'bg-[#adb1b8]!' : 'bg-[#636366]!'}`} />
+            <DK label="⇧" className="w-11 bg-[#adb1b8]!" />
             {rows[2].map(k => <DK key={k} label={k} className="w-9.25" />)}
-            <DK label="⌫" className={`w-11 ${light ? 'bg-[#adb1b8]!' : 'bg-[#636366]!'}`} />
+            <DK label="⌫" className="w-11 bg-[#adb1b8]!" />
           </div>
           <div className="flex gap-1.5">
-            <DK label="123" className={`w-11 ${light ? 'bg-[#adb1b8]!' : 'bg-[#636366]!'}`} />
+            <DK label="123" className="w-11 bg-[#adb1b8]!" />
             <button className={`flex-1 h-11 rounded-[10px] text-[17px] ${
-              light ? 'bg-white text-black shadow-[0_1px_0_rgba(0,0,0,0.25)]' : 'bg-[#3a3a3c] text-white shadow-[0_1px_0_rgba(0,0,0,0.5)]'
+              'bg-white text-black shadow-[0_1px_0_rgba(0,0,0,0.25)]'
             }`}>space</button>
             <button className="w-23 h-11 bg-[#007AFF] rounded-[10px] flex items-center justify-center shadow-[0_1px_0_rgba(0,0,0,0.5)]">
               <Icon name="keyboard_return" size={18} className="text-white" />
@@ -738,8 +738,8 @@ function DarkKeyboardMock({ light = false }) {
           </div>
         </div>
         <div className="flex items-center justify-between px-9 pt-2 pb-8">
-          <Icon name="emoji_emotions" size={26} className={light ? 'text-[#8e9099]' : 'text-[#636366]'} />
-          <Icon name="mic" size={22} className={light ? 'text-[#8e9099]' : 'text-[#636366]'} />
+          <Icon name="emoji_emotions" size={26} className="text-[#8e9099]" />
+          <Icon name="mic" size={22} className="text-[#8e9099]" />
         </div>
       </div>
     </div>
@@ -790,7 +790,7 @@ const ASSET_COMPARE_SCRIPT = {
   order: { Amount: '100', Price: '34.30', Total: '3.430.000đ' },
 }
 
-function AskExpandScreen({ onClose, onOpenSearch, chatChips, onRemoveChip, onConsumeChips, light = false }) {
+function AskExpandScreen({ onClose, onOpenSearch, chatChips, onRemoveChip, onConsumeChips }) {
   const [messages, setMessages] = useState([])
   const [thinking, setThinking] = useState(false)
   const [inputText, setInputText] = useState('')
@@ -844,24 +844,17 @@ function AskExpandScreen({ onClose, onOpenSearch, chatChips, onRemoveChip, onCon
     <motion.div
       initial={{ x: 448 }} animate={{ x: 0 }} exit={{ x: 448 }}
       transition={{ type: 'spring', stiffness: 300, damping: 32 }}
-      className={`absolute inset-0 z-80 rounded-[64px] overflow-hidden flex flex-col ${light ? 'bg-white' : 'bg-black'}`}
+      className="absolute inset-0 z-80 rounded-[64px] overflow-hidden flex flex-col bg-white"
     >
-      {/* Background — the Home gradient, reused here for both themes */}
-      {!light ? (
-        <div
-          className="absolute inset-0 rounded-[64px]"
-          style={{ background: 'linear-gradient(180deg, #292929 0%, #111111 100%)' }}
-        />
-      ) : (
-        <div
+      {/* Background — the Home gradient */}
+      {<div
           className="absolute inset-0 rounded-[64px]"
           style={{ background: 'linear-gradient(180deg, #a1a1aa 0%, #ffffff 70%)' }}
-        />
-      )}
+        />}
 
       {/* Status bar */}
       <div className="absolute top-0 left-0 right-0 z-70">
-        <StatusBar dark={light} />
+        <StatusBar />
       </div>
 
       {/* Layout column */}
@@ -869,23 +862,23 @@ function AskExpandScreen({ onClose, onOpenSearch, chatChips, onRemoveChip, onCon
 
         {/* Main content card */}
         <div className={`relative flex-1 backdrop-blur-lg border rounded-tl-[60px] rounded-tr-[60px] rounded-bl-[48px] rounded-br-[48px] overflow-hidden flex flex-col min-h-0 ${
-          light ? 'bg-white border-[#f0f0f0]' : 'bg-[#111111] border-[#171717]'
+          'bg-white border-[#f0f0f0]'
         }`}>
           {/* Header */}
           <div className="flex items-center justify-between pb-3 pl-4 pr-3 pt-16 shrink-0 w-full">
             <button className={`rounded-full px-5 py-2 flex items-center justify-center border ${
-              light ? 'border-neutral-300' : 'border-neutral-800'
+              'border-neutral-300'
             }`}>
-              <Icon name="history" size={24} className={light ? 'text-[#111111]' : 'text-[#d4d4d4]'} />
+              <Icon name="history" size={24} className="text-[#111111]" />
             </button>
             <div className="flex items-center gap-1">
               <button onClick={onOpenSearch} className={`rounded-full px-5 py-2 flex items-center justify-center border ${
-                light ? 'border-neutral-300' : 'border-neutral-800'
+                'border-neutral-300'
               }`}>
-                <Icon name="search" size={24} className={light ? 'text-[#111111]' : 'text-[#d4d4d4]'} />
+                <Icon name="search" size={24} className="text-[#111111]" />
               </button>
-              <button onClick={onClose} className={`rounded-full px-5 py-2 flex items-center justify-center border shrink-0 ${light ? 'border-neutral-300' : 'border-neutral-800'}`}>
-                <Icon name="close" size={24} className={light ? 'text-black' : 'text-white'} />
+              <button onClick={onClose} className="rounded-full px-5 py-2 flex items-center justify-center border shrink-0 border-neutral-300">
+                <Icon name="close" size={24} className="text-black" />
               </button>
             </div>
           </div>
@@ -894,7 +887,7 @@ function AskExpandScreen({ onClose, onOpenSearch, chatChips, onRemoveChip, onCon
             /* Greeting + suggestion cards — matches Home's TriScreen entry screen */
             <div className="backdrop-blur-[6px] flex-1 w-full flex flex-col items-center justify-end overflow-hidden min-h-0">
               <div className="flex flex-col gap-2.5 p-4 shrink-0 w-full whitespace-nowrap">
-                <p className={`t-h3 ${light ? 'text-[#111111]' : 'text-white'}`}>Hey Quang!</p>
+                <p className="t-h3 text-[#111111]">Hey Quang!</p>
                 <p className="t-label text-[#737373]">What&apos;s been on your mind lately?</p>
               </div>
               <div className="flex items-center pb-4 pt-3 px-4 shrink-0 w-full">
@@ -906,14 +899,14 @@ function AskExpandScreen({ onClose, onOpenSearch, chatChips, onRemoveChip, onCon
                   >
                     <div
                       className={`rounded-3xl flex flex-col gap-1 items-start px-4 py-4 shrink-0 border ${
-                        light ? 'bg-[#f5f5f5] border-[#e5e5e5]' : 'bg-[#171717] border-[#262626]'
+                        'bg-[#f5f5f5] border-[#e5e5e5]'
                       }`}
                       style={{ width: 117, height: 140, transform: `rotate(${rotate}deg)` }}
                     >
                       <div className="rounded-lg flex items-center justify-center shrink-0 size-6" style={{ background: iconBg }}>
                         <Image src={icon} alt="" width={20} height={20} />
                       </div>
-                      <p className={`t-label text-left w-full whitespace-normal ${light ? 'text-[#111111]' : 'text-[#d4d4d4]'}`}>{label}</p>
+                      <p className="t-label text-left w-full whitespace-normal text-[#111111]">{label}</p>
                     </div>
                   </div>
                 ))}
@@ -944,8 +937,8 @@ function AskExpandScreen({ onClose, onOpenSearch, chatChips, onRemoveChip, onCon
                       )}
 
                       {m.kind === 'ai-compare' && (
-                        <div className={`rounded-3xl px-4 py-3 max-w-full ${light ? 'bg-[#f5f5f5]' : 'bg-[#262626]'}`}>
-                          <div className={`text-[16px] leading-6 ${light ? 'text-[#111111]' : 'text-white'}`}>
+                        <div className="rounded-3xl px-4 py-3 max-w-full bg-[#f5f5f5]">
+                          <div className="text-[16px] leading-6 text-[#111111]">
                             <p>{m.data.intro}</p>
                             {m.data.groups.map(g => (
                               <div key={g.ticker}>
@@ -965,8 +958,8 @@ function AskExpandScreen({ onClose, onOpenSearch, chatChips, onRemoveChip, onCon
                       )}
 
                       {m.kind === 'ai-order' && (
-                        <div className={`rounded-3xl px-4 py-3 max-w-full flex flex-col gap-4 items-end w-full ${light ? 'bg-[#f5f5f5]' : 'bg-[#262626]'}`}>
-                          <div className={`flex flex-col gap-1 w-full text-[16px] leading-6 ${light ? 'text-[#111111]' : 'text-white'}`}>
+                        <div className="rounded-3xl px-4 py-3 max-w-full flex flex-col gap-4 items-end w-full bg-[#f5f5f5]">
+                          <div className="flex flex-col gap-1 w-full text-[16px] leading-6 text-[#111111]">
                             <div className="flex items-center justify-between w-full"><p>Amount</p><p>{m.data.Amount}</p></div>
                             <div className="flex items-center justify-between w-full"><p>Price</p><p>{m.data.Price}</p></div>
                             <div className="flex items-center justify-between w-full"><p>Amount</p><p>{m.data.Total}</p></div>
@@ -974,10 +967,10 @@ function AskExpandScreen({ onClose, onOpenSearch, chatChips, onRemoveChip, onCon
                           <button
                             onClick={onClose}
                             className={`backdrop-blur-sm border rounded-[60px] px-6 py-4 w-full ${
-                              light ? 'bg-black border-black' : 'bg-white border-white'
+                              'bg-black border-black'
                             }`}
                           >
-                            <span className={`text-[14px] font-medium leading-5 tracking-[0.28px] ${light ? 'text-white' : 'text-black'}`}>Confirm</span>
+                            <span className="text-[14px] font-medium leading-5 tracking-[0.28px] text-white">Confirm</span>
                           </button>
                         </div>
                       )}
@@ -1000,7 +993,7 @@ function AskExpandScreen({ onClose, onOpenSearch, chatChips, onRemoveChip, onCon
 
               {/* Top fade — sits over the message list, not part of the scroll content */}
               <div className={`absolute top-0 inset-x-0 h-14 pointer-events-none z-10 ${
-                light ? 'bg-linear-to-b from-white to-transparent' : 'bg-linear-to-b from-[#111111] to-transparent'
+                'bg-linear-to-b from-white to-transparent'
               }`} />
             </div>
           )}
@@ -1008,7 +1001,7 @@ function AskExpandScreen({ onClose, onOpenSearch, chatChips, onRemoveChip, onCon
 
         {/* Ask anything input — chips row above, input row below */}
         <div className={`border backdrop-blur-sm rounded-[32px] flex flex-col gap-2 pl-4 pr-2 pt-2 pb-2 shrink-0 mx-3 w-[calc(100%-24px)] ${
-          light ? 'bg-white border-[#d4d4d4]' : 'bg-[#171717] border-[#fafafa]'
+          'bg-white border-[#d4d4d4]'
         }`}>
           {chatChips.length > 0 && (
             <div className="flex gap-1 items-start pt-2 w-full flex-wrap">
@@ -1044,9 +1037,9 @@ function AskExpandScreen({ onClose, onOpenSearch, chatChips, onRemoveChip, onCon
             </div>
           )}
           <div className="flex gap-2 items-center justify-center w-full">
-            <Icon name="add" size={24} className={`shrink-0 ${light ? 'text-black' : 'text-white'}`} />
+            <Icon name="add" size={24} className="shrink-0 text-black" />
             <div className="flex-1 flex items-center min-w-0">
-              <span className={`flex-1 text-[16px] leading-6 text-left min-w-0 break-words ${light ? 'text-[#111111]' : 'text-white'}`}>
+              <span className="flex-1 text-[16px] leading-6 text-left min-w-0 break-words text-[#111111]">
                 {inputText ? (
                   <TypewriterInputText text={inputText} />
                 ) : (
@@ -1060,7 +1053,7 @@ function AskExpandScreen({ onClose, onOpenSearch, chatChips, onRemoveChip, onCon
             <button
               onClick={handleSend}
               disabled={!canSend}
-              className={`rounded-full p-2 flex items-center justify-center shrink-0 disabled:opacity-40 ${light ? 'bg-[#111111]' : 'bg-white'}`}
+              className="rounded-full p-2 flex items-center justify-center shrink-0 disabled:opacity-40 bg-[#111111]"
             >
               <Image src={asset("/ai.png")} alt="" width={24} height={24} />
             </button>
@@ -1068,7 +1061,7 @@ function AskExpandScreen({ onClose, onOpenSearch, chatChips, onRemoveChip, onCon
         </div>
 
         {/* Dark keyboard — in flow */}
-        <DarkKeyboardMock light={light} />
+        <DarkKeyboardMock />
       </div>
     </motion.div>
   )
@@ -1083,7 +1076,7 @@ const FAB_ACTIONS = [
   { label: 'Top up',   icon: 'add_box' },
 ]
 
-export default function WealthScreen({ onNavigate, embedded = false, onOpenSearch, defaultTab = 'wealth', portfolioHovered = false, advisorHovered = false, analyzeOpen = false, onAnalyzeClose, onAnalyzeOpen, onInvestOpen, onInvestClose, onAskChatOpen, onAskChatClose, openAskChatOnMount = false, onOpenAskChatOnMountConsumed, menuOpen = false, onOpenMenu, light = false, onTesterNoteChange, pageContentX = 0, pageContentInitialX = 0, pageTransitioning = false, chatChips: controlledChatChips, setChatChips: setControlledChatChips } = {}) {
+export default function WealthScreen({ onNavigate, embedded = false, onOpenSearch, defaultTab = 'wealth', portfolioHovered = false, advisorHovered = false, analyzeOpen = false, onAnalyzeClose, onAnalyzeOpen, onInvestOpen, onInvestClose, onAskChatOpen, onAskChatClose, openAskChatOnMount = false, onOpenAskChatOnMountConsumed, menuOpen = false, onOpenMenu, onTesterNoteChange, pageContentX = 0, pageContentInitialX = 0, pageTransitioning = false, chatChips: controlledChatChips, setChatChips: setControlledChatChips } = {}) {
   const [hidden, setHidden] = useState(false)
   const [navTab, setNavTab] = useState(defaultTab) // 'wealth' | 'explore'
   const [showAnalyze, setShowAnalyze] = useState(false)
@@ -1261,7 +1254,7 @@ export default function WealthScreen({ onNavigate, embedded = false, onOpenSearc
   ]
 
   return (
-    <div ref={rootRef} className={`overflow-hidden relative ${pageTransitioning ? 'bg-transparent' : (light ? 'bg-white' : 'bg-black')} ${
+    <div ref={rootRef} className={`overflow-hidden relative ${pageTransitioning ? 'bg-transparent' : ('bg-white')} ${
       embedded ? 'w-full h-full' : 'w-[440px] h-[956px] rounded-[64px]'
     }`}>
 
@@ -1269,9 +1262,7 @@ export default function WealthScreen({ onNavigate, embedded = false, onOpenSearc
         <div
           className="absolute inset-0"
           style={{
-            background: light
-              ? 'linear-gradient(180deg, #D5D4F7 0%, #f5f5f5 49%, #f5f5f5 100%)'
-              : 'linear-gradient(180deg, #D5D4F7 0%, #111111 58%, #111111 100%)',
+            background: 'linear-gradient(180deg, #D5D4F7 0%, #f5f5f5 49%, #f5f5f5 100%)',
           }}
         />
       )}
@@ -1279,19 +1270,17 @@ export default function WealthScreen({ onNavigate, embedded = false, onOpenSearc
       {/* Status bar — standalone only */}
       {!embedded && (
         <div className="absolute top-0 left-0 right-0 z-70">
-          <StatusBar dark={light} />
+          <StatusBar />
         </div>
       )}
 
       {/* Dark tint for the Invest push state. Menu dimming is handled by the shared menu layer. */}
-      {light && (
-        <motion.div
+      {<motion.div
           initial={false}
           animate={{ opacity: bodyPushed ? 1 : 0 }}
           transition={{ type: 'spring', stiffness: 300, damping: 32 }}
           className="absolute inset-0 bg-black/60 rounded-[64px] pointer-events-none z-30"
-        />
-      )}
+        />}
 
       {/* Layout column — exits left when the Ask AI chat opens, matching Home */}
       <motion.div
@@ -1343,28 +1332,26 @@ export default function WealthScreen({ onNavigate, embedded = false, onOpenSearc
               borderBottomRightRadius: { duration: 0.42, ease: [0.4, 0, 0.2, 1] },
             }}
             style={{
-              background: light
-                ? 'linear-gradient(180deg, rgba(255,255,255,0.6) 0%, #ffffff 58%, #ffffff 100%)'
-                : 'linear-gradient(180deg, rgba(17,17,17,0.6) 0%, #111111 58%, #111111 100%)',
+              background: 'linear-gradient(180deg, rgba(255,255,255,0.6) 0%, #ffffff 58%, #ffffff 100%)',
             }}
             className={`relative border rounded-t-[60px] overflow-hidden flex flex-col min-h-0 ${
               navTab === 'explore' ? 'flex-1' : 'shrink-0'
-            } ${light ? 'border-[#f5f5f5]' : 'border-[#171717]'}`}
+            } border-[#f5f5f5]`}
           >
 
           {/* Header — pill-segmented tabs + search */}
           <div className="flex items-center justify-between pl-6 pr-3 pb-3 pt-16 shrink-0">
-            <div className={`flex items-center p-0.5 rounded-full ${light ? 'bg-[rgba(17,17,17,0.12)]' : 'bg-[rgba(17,17,17,0.6)]'}`}>
+            <div className="flex items-center p-0.5 rounded-full bg-[rgba(17,17,17,0.12)]">
               {WEALTH_TABS.map(tab => (
                 <button
                   key={tab.id}
                   onClick={() => setNavTab(tab.id)}
                   className={`flex flex-col items-center justify-center px-4 py-1.5 rounded-full ${
-                    navTab === tab.id ? (light ? 'bg-white' : 'bg-white/16') : ''
+                    navTab === tab.id ? ('bg-white') : ''
                   }`}
                 >
                   <span className={`text-[16px] font-semibold leading-6 tracking-[0.32px] ${
-                    navTab === tab.id ? (light ? 'text-[#111111]' : 'text-white') : (light ? 'text-[#525252]' : 'text-[#b2b2b2]')
+                    navTab === tab.id ? ('text-[#111111]') : ('text-[#525252]')
                   }`}>
                     {tab.label}
                   </span>
@@ -1373,9 +1360,9 @@ export default function WealthScreen({ onNavigate, embedded = false, onOpenSearc
             </div>
             <button
               onClick={() => onOpenSearch?.()}
-              className={`flex items-center justify-center px-5 py-2 rounded-full border shrink-0 ${light ? 'border-neutral-300' : 'border-neutral-800'}`}
+              className="flex items-center justify-center px-5 py-2 rounded-full border shrink-0 border-neutral-300"
             >
-              <Icon name="search" size={24} className={light ? 'text-[#111111]' : 'text-white'} />
+              <Icon name="search" size={24} className="text-[#111111]" />
             </button>
           </div>
 
@@ -1389,11 +1376,11 @@ export default function WealthScreen({ onNavigate, embedded = false, onOpenSearc
               {chartCollapsed ? (
                 <div className="flex gap-2 items-center px-6 pt-3 pb-10 shrink-0">
                   <div className="flex-1 min-w-0 flex flex-col gap-2 items-start">
-                    <span className={`text-[14px] leading-5 ${light ? 'text-[#525252]' : 'text-[#a1a1a1]'}`}>Total Investment</span>
+                    <span className="text-[14px] leading-5 text-[#525252]">Total Investment</span>
                     <div className="flex items-center gap-3">
                       <div className="flex items-baseline gap-1 font-mono">
-                        <span className={`text-[24px] leading-8 font-bold tracking-[0.48px] ${light ? 'text-[#525252]' : 'text-[#a1a1a1]'}`}>VND</span>
-                        <span className={`text-[24px] leading-8 font-bold tracking-[0.48px] tabular-nums ${light ? 'text-[#111111]' : 'text-white'}`}>
+                        <span className="text-[24px] leading-8 font-bold tracking-[0.48px] text-[#525252]">VND</span>
+                        <span className="text-[24px] leading-8 font-bold tracking-[0.48px] tabular-nums text-[#111111]">
                           {hidden ? '••••••••' : '24,008,897'}
                         </span>
                       </div>
@@ -1402,28 +1389,28 @@ export default function WealthScreen({ onNavigate, embedded = false, onOpenSearc
                       </button>
                     </div>
                     <div className="flex gap-1 items-center text-[14px] font-medium leading-5 tracking-[0.28px]">
-                      <span className={light ? 'text-success' : 'text-green-400'}>+ 2,993,009 (9,78%)</span>
-                      <span className={light ? 'text-[#525252]' : 'text-[#a1a1a1]'}>Today</span>
+                      <span className="text-success">+ 2,993,009 (9,78%)</span>
+                      <span className="text-[#525252]">Today</span>
                     </div>
                   </div>
                   <div className="flex flex-col items-end justify-between self-stretch shrink-0">
-                    <img src={light ? asset('/wealth-balance-spark-light.svg') : asset('/wealth-balance-spark.svg')} alt="" className="w-24 h-10 object-contain" />
+                    <img src={asset('/wealth-balance-spark-light.svg')} alt="" className="w-24 h-10 object-contain" />
                     <button
                       onClick={() => setChartCollapsed(v => !v)}
-                      className={`rounded-full p-0.5 flex items-center justify-center ${light ? 'bg-[#e5e5e5]' : 'bg-[#262626]'}`}
+                      className="rounded-full p-0.5 flex items-center justify-center bg-[#e5e5e5]"
                     >
-                      <Icon name="keyboard_arrow_up" size={20} className={`rotate-180 ${light ? 'text-[#111111]' : 'text-white'}`} />
+                      <Icon name="keyboard_arrow_up" size={20} className="rotate-180 text-[#111111]" />
                     </button>
                   </div>
                 </div>
               ) : (
                 <div className="flex flex-col gap-2 items-start justify-center px-6 pt-3 pb-6 shrink-0">
-                  <span className={`text-[14px] leading-5 ${light ? 'text-[#525252]' : 'text-[#a1a1a1]'}`}>Total Investment</span>
+                  <span className="text-[14px] leading-5 text-[#525252]">Total Investment</span>
                   <div className="flex flex-col gap-1 items-start w-full">
                     <div className="flex items-center gap-3">
                       <div className="flex items-baseline gap-1 font-mono">
-                        <span className={`text-[30px] leading-10 font-bold tabular-nums ${light ? 'text-[#525252]' : 'text-[#a1a1a1]'}`}>VND</span>
-                        <span className={`text-[30px] leading-10 font-bold tabular-nums ${light ? 'text-[#111111]' : 'text-white'}`}>
+                        <span className="text-[30px] leading-10 font-bold tabular-nums text-[#525252]">VND</span>
+                        <span className="text-[30px] leading-10 font-bold tabular-nums text-[#111111]">
                           {hidden ? '••••••••' : '24,008,897'}
                         </span>
                       </div>
@@ -1432,8 +1419,8 @@ export default function WealthScreen({ onNavigate, embedded = false, onOpenSearc
                       </button>
                     </div>
                     <div className="flex gap-1 items-center text-[14px] font-medium leading-5 tracking-[0.28px]">
-                      <span className={light ? 'text-success' : 'text-green-400'}>+ 2,993,009 (9,78%)</span>
-                      <span className={light ? 'text-[#525252]' : 'text-[#a1a1a1]'}>Today</span>
+                      <span className="text-success">+ 2,993,009 (9,78%)</span>
+                      <span className="text-[#525252]">Today</span>
                     </div>
                   </div>
                 </div>
@@ -1453,9 +1440,9 @@ export default function WealthScreen({ onNavigate, embedded = false, onOpenSearc
                 }}
                 className="px-1 pb-1 shrink-0 overflow-hidden"
               >
-                <div className={`relative border rounded-[48px] overflow-hidden ${light ? 'bg-white border-[#f0f0f0]' : 'bg-[#171717] border-[#171717]'}`}>
+                <div className="relative border rounded-[48px] overflow-hidden bg-white border-[#f0f0f0]">
                   <img
-                    src={light ? asset('/wealth-summary-texture-light.svg') : asset('/wealth-summary-texture.svg')}
+                    src={asset('/wealth-summary-texture-light.svg')}
                     alt=""
                     className="absolute left-0 pointer-events-none w-full"
                     style={{ top: 108, height: 201 }}
@@ -1468,7 +1455,7 @@ export default function WealthScreen({ onNavigate, embedded = false, onOpenSearc
                           <Image src={item.icon} alt="" width={20} height={20} />
                           <span className="text-[14px] font-medium text-[#737373] leading-5">{item.label}</span>
                         </div>
-                        <span className={`text-[14px] font-medium leading-5 tabular-nums ${light ? 'text-[#111111]' : 'text-white'}`}>{item.value}</span>
+                        <span className="text-[14px] font-medium leading-5 tabular-nums text-[#111111]">{item.value}</span>
                       </div>
                     ))}
                   </div>
@@ -1478,23 +1465,23 @@ export default function WealthScreen({ onNavigate, embedded = false, onOpenSearc
                     <img src={asset("/wealth-chart.svg")} alt="" className="w-full h-[92px] object-cover" />
                     <div className="flex items-center justify-between px-6 pb-6 pt-4">
                       {/* Time filter pills */}
-                      <div className={`relative rounded-full p-1 flex items-start overflow-hidden ${light ? 'bg-[#f5f5f5]' : 'bg-[#171717]'}`}>
+                      <div className="relative rounded-full p-1 flex items-start overflow-hidden bg-[#f5f5f5]">
                         {['1D', '1W', '1M', '1Y'].map(t => (
                           <button
                             key={t}
                             onClick={() => setTimeFilter(t)}
-                            className={`rounded-full px-4 py-1 border-2 ${timeFilter === t ? (light ? 'border-[#111111]' : 'border-[#fafafa]') : 'border-transparent'}`}
+                            className={`rounded-full px-4 py-1 border-2 ${timeFilter === t ? ('border-[#111111]') : 'border-transparent'}`}
                           >
-                            <span className={`text-[14px] font-medium leading-5 ${light ? 'text-[#111111]' : 'text-[#fafafa]'}`}>{t}</span>
+                            <span className="text-[14px] font-medium leading-5 text-[#111111]">{t}</span>
                           </button>
                         ))}
                       </div>
                       {/* Collapse */}
                       <button
                         onClick={() => setChartCollapsed(true)}
-                        className={`rounded-full p-0.5 flex items-center justify-center ${light ? 'bg-[#e5e5e5]' : 'bg-[#262626]'}`}
+                        className="rounded-full p-0.5 flex items-center justify-center bg-[#e5e5e5]"
                       >
-                        <Icon name="keyboard_arrow_up" size={20} className={light ? 'text-[#111111]' : 'text-white'} />
+                        <Icon name="keyboard_arrow_up" size={20} className="text-[#111111]" />
                       </button>
                     </div>
                   </div>
@@ -1508,7 +1495,7 @@ export default function WealthScreen({ onNavigate, embedded = false, onOpenSearc
           {/* ── Explore tab ── */}
           {navTab === 'explore' && (
             <div className="relative flex-1 overflow-hidden flex flex-col">
-              <ExploreContent onDragStart={startDrag} light={light} />
+              <ExploreContent onDragStart={startDrag} />
             </div>
           )}
           </motion.div>
@@ -1517,10 +1504,10 @@ export default function WealthScreen({ onNavigate, embedded = false, onOpenSearc
               and My Assets (wealth tab only) */}
           {navTab === 'wealth' && (
             <div className={`relative shrink-0 border rounded-[48px] overflow-hidden flex flex-col ${
-              light ? 'bg-white border-[#f5f5f5]' : 'bg-[#111111] border-[#171717]'
+              'bg-white border-[#f5f5f5]'
             }`}>
               <div className="flex items-center justify-between pt-6 pb-2 px-6 shrink-0">
-                <p className={`text-[16px] font-semibold leading-6 tracking-[0.32px] ${light ? 'text-[#111111]' : 'text-[#d4d4d4]'}`}>Top gains</p>
+                <p className="text-[16px] font-semibold leading-6 tracking-[0.32px] text-[#111111]">Top gains</p>
                 <button
                   onClick={() => setTopGainsOpen(v => !v)}
                   className="flex items-center justify-center size-6"
@@ -1528,7 +1515,7 @@ export default function WealthScreen({ onNavigate, embedded = false, onOpenSearc
                   <Icon
                     name="keyboard_arrow_up"
                     size={24}
-                    className={`transition-transform duration-300 ${topGainsOpen ? 'rotate-90' : '-rotate-90'} ${light ? 'text-[#111111]' : 'text-[#d4d4d4]'}`}
+                    className={`transition-transform duration-300 ${topGainsOpen ? 'rotate-90' : '-rotate-90'} text-[#111111]`}
                   />
                 </button>
               </div>
@@ -1546,7 +1533,7 @@ export default function WealthScreen({ onNavigate, embedded = false, onOpenSearc
                         <div
                           key={item.ticker}
                           onPointerDown={(e) => startDrag(e, { ticker: item.ticker, avatar: { type: 'image', src: item.logo, bg: item.logoBg } })}
-                          className={`flex-1 min-w-0 flex flex-col gap-5 items-start justify-center p-4 touch-none cursor-grab active:cursor-grabbing ${light ? 'bg-[#f5f5f5]' : 'bg-[#171717]'} ${
+                          className={`flex-1 min-w-0 flex flex-col gap-5 items-start justify-center p-4 touch-none cursor-grab active:cursor-grabbing bg-[#f5f5f5] ${
                             i === 0 ? 'rounded-tl-xl rounded-tr-xl rounded-bl-[40px] rounded-br-xl'
                               : i === TOP_GAINS.length - 1 ? 'rounded-tl-xl rounded-tr-xl rounded-bl-xl rounded-br-[40px]'
                               : 'rounded-xl'
@@ -1554,12 +1541,12 @@ export default function WealthScreen({ onNavigate, embedded = false, onOpenSearc
                         >
                           <div className="flex items-start justify-between w-full">
                             <div className="flex flex-col gap-1 items-start">
-                              <span className={`text-[14px] font-medium leading-5 tracking-[0.28px] ${light ? 'text-[#111111]' : 'text-[#fafafa]'}`}>{item.ticker}</span>
-                              <span className={`text-[14px] font-medium leading-5 tracking-[0.28px] ${light ? 'text-success' : 'text-green-400'}`}>{item.change}</span>
+                              <span className="text-[14px] font-medium leading-5 tracking-[0.28px] text-[#111111]">{item.ticker}</span>
+                              <span className="text-[14px] font-medium leading-5 tracking-[0.28px] text-success">{item.change}</span>
                             </div>
-                            <Icon name="drag_indicator" size={16} className={light ? 'text-[#d4d4d4]' : 'text-[#404040]'} />
+                            <Icon name="drag_indicator" size={16} className="text-[#d4d4d4]" />
                           </div>
-                          <img src={light ? item.spark.replace('.svg', '-light.svg') : item.spark} alt="" className="w-full h-8 object-contain" />
+                          <img src={item.spark.replace('.svg', '-light.svg')} alt="" className="w-full h-8 object-contain" />
                         </div>
                       ))}
                     </div>
@@ -1573,13 +1560,13 @@ export default function WealthScreen({ onNavigate, embedded = false, onOpenSearc
               Hugs its content (no fixed height / clipping) with 56px bottom padding. */}
           {navTab === 'wealth' && (
                 <div ref={cardBRef} className={`relative shrink-0 backdrop-blur-lg border rounded-[48px] flex flex-col ${
-                  light ? 'bg-white border-[#f5f5f5]' : 'bg-[#111111] border-[#171717]'
+                  'bg-white border-[#f5f5f5]'
                 }`}>
                   <div className="relative flex items-center justify-start pt-6 pb-2 px-6 shrink-0">
-                    <p className={`text-[16px] font-semibold leading-6 tracking-[0.32px] ${light ? 'text-[#111111]' : 'text-[#d4d4d4]'}`}>My Assets (3)</p>
+                    <p className="text-[16px] font-semibold leading-6 tracking-[0.32px] text-[#111111]">My Assets (3)</p>
                     {assetsScrolled && (
                       <div className={`absolute top-full inset-x-0 h-14 pointer-events-none z-10 ${
-                        light ? 'bg-linear-to-b from-white to-transparent' : 'bg-linear-to-b from-[#111111] to-transparent'
+                        'bg-linear-to-b from-white to-transparent'
                       }`} />
                     )}
                   </div>
@@ -1592,12 +1579,10 @@ export default function WealthScreen({ onNavigate, embedded = false, onOpenSearc
                           key={f}
                           onClick={() => setAssetFilter(f)}
                           className={`rounded-full h-9 px-4 flex items-center shrink-0 border-2 ${
-                            light
-                              ? `bg-[#f5f5f5] ${f === assetFilter ? 'border-[#111111] bg-white' : 'border-transparent'}`
-                              : `bg-[#171717] ${f === assetFilter ? 'border-[#fafafa]' : 'border-transparent'}`
+                            `bg-[#f5f5f5] ${f === assetFilter ? 'border-[#111111] bg-white' : 'border-transparent'}`
                           }`}
                         >
-                          <span className={`text-[14px] font-medium leading-5 tracking-[0.28px] whitespace-nowrap ${light ? 'text-[#111111]' : 'text-[#fafafa]'}`}>
+                          <span className="text-[14px] font-medium leading-5 tracking-[0.28px] whitespace-nowrap text-[#111111]">
                             {f}
                           </span>
                         </button>
@@ -1616,17 +1601,17 @@ export default function WealthScreen({ onNavigate, embedded = false, onOpenSearc
                             <Image src={asset("/tcb-logo.png")} alt="TCB" fill className="object-cover" />
                           </div>
                           <div className="flex flex-col gap-1">
-                            <span className={`text-[14px] font-medium leading-5 tracking-[0.28px] ${light ? 'text-[#111111]' : 'text-[#d4d4d4]'}`}>TCB</span>
+                            <span className="text-[14px] font-medium leading-5 tracking-[0.28px] text-[#111111]">TCB</span>
                             <span className="text-[12px] font-medium text-[#737373] leading-4">Qty: 400</span>
                           </div>
                         </div>
                         <div className="flex flex-col gap-1 items-end text-right">
-                          <span className={`text-[14px] font-semibold leading-6 font-mono tabular-nums ${light ? 'text-[#111111]' : 'text-[#d4d4d4]'}`}>12,008,897</span>
-                          <span className={`text-[12px] font-medium leading-4 ${light ? 'text-success' : 'text-green-400'}`}>+149,000đ (+1.29%)</span>
+                          <span className="text-[14px] font-semibold leading-6 font-mono tabular-nums text-[#111111]">12,008,897</span>
+                          <span className="text-[12px] font-medium leading-4 text-success">+149,000đ (+1.29%)</span>
                         </div>
                       </div>
                       <span className="shrink-0">
-                        <Icon name="drag_indicator" size={16} className={light ? "text-[#d4d4d4]" : "text-[#262626]"} />
+                        <Icon name="drag_indicator" size={16} className="text-[#d4d4d4]" />
                       </span>
                     </div>
                     <div className="pl-[76px] pr-4 w-full">
@@ -1645,17 +1630,17 @@ export default function WealthScreen({ onNavigate, embedded = false, onOpenSearc
                                 <Image src={asset("/invest-bonds.png")} alt="" width={20} height={20} />
                               </div>
                               <div className="flex flex-col gap-1">
-                                <span className={`text-[14px] font-medium leading-5 tracking-[0.28px] ${light ? 'text-[#111111]' : 'text-[#d4d4d4]'}`}>{bond.ticker}</span>
+                                <span className="text-[14px] font-medium leading-5 tracking-[0.28px] text-[#111111]">{bond.ticker}</span>
                                 <span className="text-[12px] font-medium text-[#737373] leading-4">Maturity: {bond.maturity}</span>
                               </div>
                             </div>
                             <div className="flex flex-col gap-1 items-end text-right">
-                              <span className={`text-[14px] font-semibold leading-6 font-mono tabular-nums ${light ? 'text-[#111111]' : 'text-[#d4d4d4]'}`}>{bond.amount}</span>
-                              <span className={`text-[12px] font-medium leading-4 ${light ? 'text-success' : 'text-green-400'}`}>{bond.yieldStr}</span>
+                              <span className="text-[14px] font-semibold leading-6 font-mono tabular-nums text-[#111111]">{bond.amount}</span>
+                              <span className="text-[12px] font-medium leading-4 text-success">{bond.yieldStr}</span>
                             </div>
                           </div>
                           <span className="shrink-0">
-                            <Icon name="drag_indicator" size={16} className={light ? "text-[#d4d4d4]" : "text-[#262626]"} />
+                            <Icon name="drag_indicator" size={16} className="text-[#d4d4d4]" />
                           </span>
                         </div>
                         {i < BONDS.length - 1 && (
@@ -1691,18 +1676,18 @@ export default function WealthScreen({ onNavigate, embedded = false, onOpenSearc
           initial={false}
           animate={{ opacity: fabOpen ? 0 : 1, pointerEvents: fabOpen ? 'none' : 'auto' }}
           transition={{ duration: 0.18 }}
-          className={`absolute right-6 z-55 rounded-[60px] px-8 py-5 flex items-center gap-2 shadow-[0_20px_12.5px_rgba(0,0,0,0.1),0_10px_5px_rgba(0,0,0,0.04)] ${light ? 'bg-black' : 'bg-white'}`}
+          className="absolute right-6 z-55 rounded-[60px] px-8 py-5 flex items-center gap-2 shadow-[0_20px_12.5px_rgba(0,0,0,0.1),0_10px_5px_rgba(0,0,0,0.04)] bg-black"
           style={{ bottom: 112 }}
         >
           <motion.span
             animate={{ rotate: fabOpen ? 45 : 0 }}
             transition={{ type: 'spring', stiffness: 300, damping: 22 }}
-            className={`material-symbols-outlined leading-none select-none ${light ? 'text-white' : 'text-black'}`}
+            className="material-symbols-outlined leading-none select-none text-white"
             style={{ fontSize: 24, display: 'block' }}
           >
             add
           </motion.span>
-          <span className={`text-[14px] font-medium leading-5 ${light ? 'text-white' : 'text-black'}`}>Invest</span>
+          <span className="text-[14px] font-medium leading-5 text-white">Invest</span>
         </motion.button>
 
         {/* Push spacer — compresses the card so its bottom lands 8px above the
@@ -1733,27 +1718,25 @@ export default function WealthScreen({ onNavigate, embedded = false, onOpenSearc
           transition={{ duration: 0.25 }}
           className={`absolute inset-x-0 bottom-0 z-50 pt-4 px-8 pb-8 rounded-b-[64px] ${pageTransitioning ? 'pointer-events-none' : ''}`}
           style={{
-            background: light
-              ? 'linear-gradient(to bottom, rgba(255,255,255,0) 0%, #ffffff 53%)'
-              : 'linear-gradient(to bottom, rgba(17,17,17,0) 0%, #111111 53%)',
+            background: 'linear-gradient(to bottom, rgba(255,255,255,0) 0%, #ffffff 53%)',
           }}
         >
         <div className="relative shrink-0 w-full flex items-center gap-2" style={{ height: 64 }}>
           <button
             onClick={() => onOpenMenu ? onOpenMenu() : onNavigate?.('home')}
-            className={`px-8 py-5 flex items-center justify-center shrink-0 ${light ? 'bg-black' : 'bg-white'}`}
+            className="px-8 py-5 flex items-center justify-center shrink-0 bg-black"
             style={{ borderRadius: 36 }}
           >
             <div className="relative size-6">
               {[[4, 4], [16, 4], [4, 16], [16, 16]].map(([x, y], i) => (
-                <div key={i} className={`absolute size-1 rounded-full ${light ? 'bg-white' : 'bg-black'}`} style={{ left: x, top: y }} />
+                <div key={i} className="absolute size-1 rounded-full bg-white" style={{ left: x, top: y }} />
               ))}
             </div>
           </button>
           <motion.div
             ref={askRef}
             initial={false}
-            animate={{ borderColor: overAsk ? (light ? '#111111' : '#fafafa') : (light ? '#e5e5e5' : '#404040'), scale: overAsk ? 1.02 : 1 }}
+            animate={{ borderColor: overAsk ? ('#111111') : ('#e5e5e5'), scale: overAsk ? 1.02 : 1 }}
             transition={{ duration: 0.15 }}
             onClick={(e) => {
               // Deterministic guard: if the click originated from inside the chip
@@ -1763,10 +1746,10 @@ export default function WealthScreen({ onNavigate, embedded = false, onOpenSearc
               if (e.target.closest('[data-ask-chip]')) return
               setAskChatOpen(true)
             }}
-            className={`flex-1 backdrop-blur-sm border-2 rounded-[36px] pl-8 pr-5 py-5 flex items-center justify-between gap-2 min-w-0 cursor-pointer ${light ? 'bg-white' : 'bg-black'}`}
+            className="flex-1 backdrop-blur-sm border-2 rounded-[36px] pl-8 pr-5 py-5 flex items-center justify-between gap-2 min-w-0 cursor-pointer bg-white"
           >
             <div className="flex-1 flex items-center justify-between gap-2 min-w-0">
-              <span className={`t-body-md whitespace-nowrap text-left min-w-0 ${light ? 'text-[#111111]' : 'text-white'}`}>
+              <span className="t-body-md whitespace-nowrap text-left min-w-0 text-[#111111]">
                 Ask anything...
               </span>
               <AnimatePresence>
@@ -1777,9 +1760,9 @@ export default function WealthScreen({ onNavigate, embedded = false, onOpenSearc
                     exit={{ opacity: 0, scale: 0.8 }}
                     transition={{ type: 'spring', stiffness: 300, damping: 28 }}
                     data-ask-chip
-                    className={`flex items-center h-6 gap-1 rounded-full pl-2 pr-1 shrink-0 ${light ? 'bg-[#f5f5f5]' : 'bg-[#262626]'}`}
+                    className="flex items-center h-6 gap-1 rounded-full pl-2 pr-1 shrink-0 bg-[#f5f5f5]"
                   >
-                    <span className={`flex h-4 items-center text-[12px] font-medium leading-4 whitespace-nowrap ${light ? 'text-[#111111]' : 'text-white'}`}>
+                    <span className="flex h-4 items-center text-[12px] font-medium leading-4 whitespace-nowrap text-[#111111]">
                       {chatChips.length} attached
                     </span>
                     <button
@@ -1791,7 +1774,7 @@ export default function WealthScreen({ onNavigate, embedded = false, onOpenSearc
                       }}
                       className="flex items-center justify-center size-4"
                     >
-                      <Icon name="close" size={16} className={light ? 'text-[#111111]' : 'text-white'} />
+                      <Icon name="close" size={16} className="text-[#111111]" />
                     </button>
                   </motion.div>
                 )}
@@ -1837,7 +1820,6 @@ export default function WealthScreen({ onNavigate, embedded = false, onOpenSearc
           <AnalyzeOverlay
             showCard={showAnalyze || analyzeOpen}
             onClose={() => { setShowAnalyze(false); onAnalyzeClose?.() }}
-            light={light}
           />
         )}
       </AnimatePresence>
@@ -1851,7 +1833,6 @@ export default function WealthScreen({ onNavigate, embedded = false, onOpenSearc
             chatChips={chatChips}
             onRemoveChip={(ticker) => setChatChips(prev => prev.filter(c => c.ticker !== ticker))}
             onConsumeChips={() => setChatChips([])}
-            light={light}
           />
         )}
       </AnimatePresence>
@@ -1866,7 +1847,7 @@ export default function WealthScreen({ onNavigate, embedded = false, onOpenSearc
             className="absolute inset-0 z-40"
             onClick={closeInvest}
           >
-            <div className={`absolute inset-0 rounded-[64px] ${light ? 'bg-black/10' : 'bg-black/60'}`} />
+            <div className="absolute inset-0 rounded-[64px] bg-black/10" />
           </motion.div>
         )}
       </AnimatePresence>
@@ -1883,7 +1864,7 @@ export default function WealthScreen({ onNavigate, embedded = false, onOpenSearc
             }}
             transition={{ type: 'spring', stiffness: 300, damping: 32 }}
             className={`absolute z-[60] overflow-hidden rounded-[60px] backdrop-blur-lg border flex flex-col ${
-              light ? 'bg-[#111111] border-[#262626]' : 'bg-[#fafafa] border-[#171717]'
+              'bg-[#111111] border-[#262626]'
             }`}
             style={{ left: 4, right: 4, bottom: 4 }}
             onClick={(e) => e.stopPropagation()}
@@ -1891,16 +1872,16 @@ export default function WealthScreen({ onNavigate, embedded = false, onOpenSearc
             {/* Header */}
             <div className="flex items-center justify-between px-6 pt-6 pb-3 w-full shrink-0">
               <div className="flex flex-col gap-1 pl-3">
-                <p className={`text-[16px] font-semibold leading-6 tracking-[0.32px] ${light ? 'text-[#fafafa]' : 'text-[#0a0a0a]'}`}>Invest</p>
+                <p className="text-[16px] font-semibold leading-6 tracking-[0.32px] text-[#fafafa]">Invest</p>
                 <p className="text-[14px] text-[#737373] leading-5">Select a product.</p>
               </div>
               <button
                 onClick={closeInvest}
                 className={`backdrop-blur-[4px] rounded-[60px] px-6 py-4 shrink-0 border ${
-                  light ? 'bg-black border-white' : 'bg-white border-black'
+                  'bg-black border-white'
                 }`}
               >
-                <span className={`text-[14px] font-medium leading-5 ${light ? 'text-white' : 'text-black'}`}>Close</span>
+                <span className="text-[14px] font-medium leading-5 text-white">Close</span>
               </button>
             </div>
 
@@ -1910,13 +1891,13 @@ export default function WealthScreen({ onNavigate, embedded = false, onOpenSearc
                 { label: 'Equities', icon: asset('/invest-equities.png'), bg: '#d5d4f7' },
                 { label: 'Bonds',    icon: asset('/invest-bonds.png'),    bg: '#bedbff' },
                 { label: 'Funds',    icon: asset('/invest-funds.png'),    bg: '#fff4cc' },
-                { label: 'Top up',   icon: asset('/invest-topup.png'),    bg: light ? '#262626' : '#e5e5e5' },
+                { label: 'Top up',   icon: asset('/invest-topup.png'),    bg: '#262626' },
               ].map(item => (
                 <div key={item.label} className="flex-1 flex flex-col gap-1 items-center justify-center min-w-0">
                   <div className="rounded-full flex items-center justify-center" style={{ background: item.bg, width: 90, height: 90 }}>
                     <Image src={item.icon} alt="" width={40} height={40} />
                   </div>
-                  <p className={`text-[14px] font-medium leading-5 text-center whitespace-nowrap ${light ? 'text-white' : 'text-black'}`}>{item.label}</p>
+                  <p className="text-[14px] font-medium leading-5 text-center whitespace-nowrap text-white">{item.label}</p>
                 </div>
               ))}
             </div>
